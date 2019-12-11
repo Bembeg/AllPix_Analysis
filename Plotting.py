@@ -3,6 +3,9 @@
 from ROOT import TFile, TCanvas, TH1D, gStyle, TBrowser, TLegend, TMath, TF1, TGraph, Double, TLine, TLatex
 
 def InterpolateHist(hist, x):
+    """
+    Interpolates between two bins of a histogram "hist", returns x,y position of left and right "point" and the interpolated y value to the corresponding "x" input.
+    """
     xBin = hist.FindBin(x)
     binWidth = hist.GetBinWidth(hist.GetBin(xBin))
     # Looking for left bin
@@ -32,7 +35,6 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     """
     Pass a list of root files to have the efficiency plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
     """
-    # path = "/home/b/pCloudDrive/Work/MgrThesis/Prog/AllPix/tb/output/"
     canvas = TCanvas("c1", "c1", 500,500)
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)           #hides title
@@ -41,14 +43,8 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
 
     color = [1,2,4,6,9,9,6,4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
-    #lineStyle = [1,1,1,1,2,2,2,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
-    #markerStyle = [25,26,32,27,28,34,33,23,22,21]
       
-    # color = [2,4,1] 
-    # lineStyle = [2,2,1]
-    # markerStyle = [22, 21, 23] 
-
     axisRangeXLow = 1
     axisRangeXHigh = 6
     axisRangeYLow = 0
@@ -235,14 +231,10 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     """
     Pass a list of root files to have the cluster size plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
     """
-    # path = "/home/b/pCloudDrive/Work/MgrThesis/Prog/AllPix/tb/output/"
     canvas = TCanvas("c1", "c1", 600,600)
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)           #hides title
 
-    # color = [2,4,1] 
-    # lineStyle = [1,1,1]
-    # markerStyle = [22, 21, 23] 
     color = [1,2,4,6,9,9,6,4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
@@ -330,13 +322,10 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
             clusRef[i].Draw("samePLE")
 
     # Legend
-    # legendWidth = 1 - 0.014*max([len(max(legendEntries, key=len))+9, len(legendHeader), len(refLegendEntries)+9])
-    # legendHeight = 1 - nOfPlots*0.07 - 0.09
-    # if len(refFileNames) != 0: legendHeight -= 0.09
-    legendWidth = 0.55
-    legendHeight = 0.60
+    legendWidth = 0.9 - 0.013*max([len(max(legendEntries, key=len))+5, len(legendHeader), len(refLegendEntries)+5])
+    legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05-0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
-    legend.SetHeader(legendHeader)
+    legend.SetHeader(legendHeader,"C")
     legend.SetTextSize(textSize)
     for i in range(len(fileNames)):
         if refFileNames !=0 and i <= len(refFileNames) - 1:
@@ -349,36 +338,37 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     canvas.SaveAs("results/" + plotName + "_clus.pdf")
 
 
+# ------------------------------------------------------------------------------
+
 fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "0deg-290um-864e-CT_analysed.root"]
 legendEntries = ["Sim - 300um", "AUW", "new Sim."]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "diff"      
 legendHeader = "Data points"                        
-refOption = "time"
-axisTitleX = "Threshold [fC]"
-#PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
-
-# fileNames =  ["rot0deg-300um-noCT_analysed.root"]
-# legendEntries = ["300um, CT 0 %"]
-# refFileNames = ["ref-0deg-testbeam.root"]
-# refLegendEntries = ["TB data, CT ?"]            
-# plotName = "rot0deg_crosstalk_1"      
-# legendHeader = "Crosstalk:"                        
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
-#fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "rot0deg-300um-CThigh_analysed.root"]
-#legendEntries = ["Simulation", "Sim. + crosstalk", "Sim. + 2x crosstalk"]
-#refFileNames = ["ref-0deg-testbeam.root"]
-#refLegendEntries = ["Test beam data"]
-#plotName = "CT_over"      
-#legendHeader = "Crosstalk:"                        
-#refOption = "time"
-#axisTitleX = "Threshold [fC]"
-#PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
+
+fileNames =  ["rot0deg-300um-noCT_analysed.root"]
+legendEntries = ["300um, CT 0 %"]
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["TB data, CT ?"]            
+plotName = "rot0deg_crosstalk_1"      
+legendHeader = "Crosstalk:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+
+
+fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "rot0deg-300um-CThigh_analysed.root"]
+legendEntries = ["Simulation", "Sim. + crosstalk", "Sim. + 2x crosstalk"]
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam data"]
+plotName = "CT_over"      
+legendHeader = "Crosstalk:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+
 
 fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.root", "y12deg-290um-864e-CT_analysed.root"] 
 legendEntries = ["0 deg - Simulation",  "5 deg - Simulation", "12 deg - Simulation"]
@@ -386,10 +376,9 @@ refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12deg
 refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
 plotName = "chi_testing_Y2"
 legendHeader = "Sensor rotation (y-axis):"                        
-refOption = "time"
-axisTitleX = "Threshold [fC]"
-#PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+
 
 fileNames = ["0deg-290um-864e-CT_analysed.root", "x23deg-290um-864e-CT_analysed.root"]
 legendEntries = ["0 deg - Simulation",  "23 deg - Simulation"]
@@ -397,33 +386,29 @@ refFileNames =  ["ref-0deg-testbeam.root", "ref-23degx-testbeam.root"]
 refLegendEntries = ["0 deg - Test beam", "23 deg - Test beam"]    
 plotName = "rotXaxis"
 legendHeader = "Sensor rotation (x-axis):"                        
-refOption = "time"
-axisTitleX = "Threshold [fC]"
-#PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
 
-# fileNames =  ["roty12deg-300um-noCT_analysed.root", "roty12deg-300um-CT_analysed.root"]
-# legendEntries = ["Simulation", "Sim. + crosstalk"]
-# refFileNames = ["ref-12degy-testbeam.root"]
-# refLegendEntries = ["Test beam data"]            
-# plotName = "roty12deg_crosstalk"      
-# legendHeader = "Crosstalk:"                        
-# refOption = "time"
-# axisTitleX = "Threshold [fC]"
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
+fileNames =  ["roty12deg-300um-noCT_analysed.root", "roty12deg-300um-CT_analysed.root"]
+legendEntries = ["Simulation", "Sim. + crosstalk"]
+refFileNames = ["ref-12degy-testbeam.root"]
+refLegendEntries = ["Test beam data"]            
+plotName = "roty12deg_crosstalk"      
+legendHeader = "Crosstalk:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
-# fileNames =  ["rotx23deg-300um-noCT_analysed.root", "rotx23deg-300um-CT_analysed.root"]
-# legendEntries = ["Simulation", "Sim. + crosstalk"]
-# refFileNames = ["ref-23degx-testbeam.root"]
-# refLegendEntries = ["Test beam data"]            
-# plotName = "rotx23deg_crosstalk"      
-# legendHeader = "Crosstalk:"                        
-# refOption = "time"
-# axisTitleX = "Threshold [fC]"
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
+
+fileNames =  ["rotx23deg-300um-noCT_analysed.root", "rotx23deg-300um-CT_analysed.root"]
+legendEntries = ["Simulation", "Sim. + crosstalk"]
+refFileNames = ["ref-23degx-testbeam.root"]
+refLegendEntries = ["Test beam data"]            
+plotName = "rotx23deg_crosstalk"      
+legendHeader = "Crosstalk:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+
 
 fileNames =  ["y5deg-290um-864e-CT_analysed.root"]
 legendEntries = ["Simulation"]
@@ -431,8 +416,5 @@ refFileNames = ["ref-12degy-testbeam.root"]
 refLegendEntries = ["Testbeam"]
 plotName = "chi_testing_1"      
 legendHeader = "Data points:"                        
-refOption = "time"
-axisTitleX = "Threshold [fC]"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption, axisTitleX, axisTitleY="Efficiency")
-#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
-
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
