@@ -1,0 +1,5 @@
+# Ignore raw output data
+data/raw/
+
+# Ignore pdf plots - not sure about this one?
+# results/
