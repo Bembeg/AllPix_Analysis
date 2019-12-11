@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 from ROOT import TFile, TCanvas, TH1D, gStyle, TBrowser, TLegend, TMath, TF1, TGraph, Double, TLine, TLatex
+from datetime import datetime as date
+
 
 def InterpolateHist(hist, x):
     """
@@ -31,6 +33,7 @@ def InterpolateHist(hist, x):
     y = k*x + q
     return (xL,yL,xR,yR,y)
 
+
 def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntries=[], plotName=0, legendHeader=0, refOption=0, axisTitleX="Threshold [fC]", axisTitleY="Efficiency"):
     """
     Pass a list of root files to have the efficiency plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
@@ -44,7 +47,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     color = [1,2,4,6,9,9,6,4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
-      
+    
     axisRangeXLow = 1
     axisRangeXHigh = 6
     axisRangeYLow = 0
@@ -59,20 +62,20 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     refFile = []
     effRefPoints = []
     effRefFunc = []
-      
+    
     # Preparation and checks
     if fileNames == 0: 
         print("No file names were passed.")
         return 1
-        
+    
     if legendEntries == 0:
         print("No legend entries passed, assuming entries from file names.")
         return 1
-        
+    
     if refFileNames != 0 and refLegendEntries == 0:
         print("No reference legend entry passed, assuming from file name.")
         return 1
-        
+    
     if refFileNames != 0 and refOption == 0:
         print("No reference option selected (choose \"time\", \"center\") or \"edge\".")    
         return 1   
@@ -134,60 +137,60 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         effHist[i].Fit("fitFunc"+str(i), "R")
         fitFunction[i].Draw("same")
 
-        # Reference data plot
-        if refFileNames != 0:
-            if refOption == "time":
-                histName = "efficiency_vs_threshold_time_corrected"
-                functionName = "erfcFit_timing"
-            if refOption == "center":
-                histName = "efficiency_vs_threshold_strip_ctr"
-                functionName = "erfcFit_ctr"
-            if refOption == "edge":
-                histName = "efficiency_vs_threshold_strip_edge"
-                functionName = "erfcFit_edge"
+    # Reference data plot
+    if refFileNames != 0:
+        if refOption == "time":
+            histName = "efficiency_vs_threshold_time_corrected"
+            functionName = "erfcFit_timing"
+        if refOption == "center":
+            histName = "efficiency_vs_threshold_strip_ctr"
+            functionName = "erfcFit_ctr"
+        if refOption == "edge":
+            histName = "efficiency_vs_threshold_strip_edge"
+            functionName = "erfcFit_edge"
             
-            chisquares = []
-            lines = []
-            interpLines = []
-            for i in range(len(refFileNames)):                  
-                refFile.append(TFile ("data/" + refFileNames[i]))
-                effRefFunc.append(refFile[i].Get(histName).GetListOfFunctions().FindObject(functionName))
-                effRefPoints.append(refFile[i].Get(histName))
-                refFile[i].Close()
-        
-                effRefPoints[i].SetMarkerSize(markerSize)
-                effRefPoints[i].SetMarkerStyle(markerStyle[-i-1])
-                effRefPoints[i].SetMarkerColor(color[-i-1])
-                effRefPoints[i].SetLineColor(color[-i-1])
-                effRefPoints[i].SetLineStyle(lineStyle[-i-1])
-                effRefPoints[i].SetLineWidth(2)
-                effRefPoints[i].Draw("Psame")
-                effRefFunc[i].SetLineColor(color[-i-1])
-                effRefFunc[i].SetLineStyle(lineStyle[-i-1])
-                effRefFunc[i].Draw("Lsame")
+        chisquares = []
+        lines = []
+        interpLines = []
+        for i in range(len(refFileNames)):                  
+            refFile.append(TFile ("data/" + refFileNames[i]))
+            effRefFunc.append(refFile[i].Get(histName).GetListOfFunctions().FindObject(functionName))
+            effRefPoints.append(refFile[i].Get(histName))
+            refFile[i].Close()
+    
+            effRefPoints[i].SetMarkerSize(markerSize)
+            effRefPoints[i].SetMarkerStyle(markerStyle[-i-1])
+            effRefPoints[i].SetMarkerColor(color[-i-1])
+            effRefPoints[i].SetLineColor(color[-i-1])
+            effRefPoints[i].SetLineStyle(lineStyle[-i-1])
+            effRefPoints[i].SetLineWidth(2)
+            effRefPoints[i].Draw("Psame")
+            effRefFunc[i].SetLineColor(color[-i-1])
+            effRefFunc[i].SetLineStyle(lineStyle[-i-1])
+            effRefFunc[i].Draw("Lsame")
                         
-                # get chi2 of Data-MC
-                doChi2 = 1
-                if doChi2 == 1:
-                    chisquares.append(0)
-                    lines.append([])
-                    interpLines.append([])
-                    # effRefPoints[i].Print()
-                    for j in range(effRefPoints[i].GetN()):
-                        (x,y,ey) = (effRefPoints[i].GetX()[j],effRefPoints[i].GetY()[j],effRefPoints[i].GetEY()[j])      
-                        (xL, yL, xR, yR, fy) = InterpolateHist(effHist[i], x)  
-                        #fy = fitFunction[i].Eval(x)
-                        # interpLines[-1].append(TLine(xL, yL, xR, yR))
-                        # interpLines[-1][-1].SetLineColor(2)
-                        # interpLines[-1][-1].SetLineWidth(2)
-                        # interpLines[-1][-1].Draw("same")
-                        chisquares[-1] += (y-fy)**2/ey**2
-                        # lines[-1].append(TLine(x,y,x,fy))
-                        # lines[-1][-1].SetLineColor(2)
-                        # lines[-1][-1].SetLineWidth(2)
-                        # lines[-1][-1].Draw("same")
-                    print("chi2/NDF =", chisquares[i], "/", effRefPoints[i].GetN())
-                     
+            # get chi2 of Data-MC
+            doChi2 = 1
+            if doChi2 == 1:
+                chisquares.append(0)
+                lines.append([])
+                interpLines.append([])
+                # effRefPoints[i].Print()
+                for j in range(effRefPoints[i].GetN()):
+                    (x,y,ey) = (effRefPoints[i].GetX()[j],effRefPoints[i].GetY()[j],effRefPoints[i].GetEY()[j])      
+                    (xL, yL, xR, yR, fy) = InterpolateHist(effHist[i], x)  
+                    #fy = fitFunction[i].Eval(x)
+                    # interpLines[-1].append(TLine(xL, yL, xR, yR))
+                    # interpLines[-1][-1].SetLineColor(2)
+                    # interpLines[-1][-1].SetLineWidth(2)
+                    # interpLines[-1][-1].Draw("same")
+                    chisquares[-1] += (y-fy)**2/ey**2
+                    # lines[-1].append(TLine(x,y,x,fy))
+                    # lines[-1][-1].SetLineColor(2)
+                    # lines[-1][-1].SetLineWidth(2)
+                    # lines[-1][-1].Draw("same")
+                print("chi2/NDF =", chisquares[i], "/", effRefPoints[i].GetN())
+                    
     # Legend
     legendWidth = 0.9 - 0.013*max([len(max(legendEntries, key=len))+5, len(legendHeader), len(refLegendEntries)+5])
     legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05-0.05
@@ -201,6 +204,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     legend.Draw("same")
 
     #Print Chi2/NDF
+    doChi2 = 1
     if doChi2 == 1:     
         textHeader = TLatex(4.8, legendHeight-0.12, " #bf{#chi^{2}/ndf_{(data - sim)}}")
         textHeader.SetTextSize(textSize)
@@ -225,6 +229,18 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
 
     # Print and save
     canvas.SaveAs("results/" + plotName + "_eff.pdf")
+    logFile = open("log_fits.txt", "a")
+    logFile.write("\nPLOT:\t\t\t\t" + plotName + "_eff.pdf")
+    logFile.write("\nDATE:\t\t\t\t" + str(date.now()))
+    for i in range(len(fitFunction)):    
+        logFile.write("\n\tFCT:\t\t\t" + fileNames[i].split("_")[0])
+        logFile.write("\n\t\tChi2:\t\t" + str(round(fitFunction[i].GetChisquare(),2)))
+        logFile.write("\n\t\tNDF:\t\t" + str(fitFunction[i].GetNDF()))
+        logFile.write("\n\t\tChi2/NDF:\t" + str(round(fitFunction[i].GetChisquare()/fitFunction[i].GetNDF(),2)))
+        for j in range(fitFunction[i].GetNpar()):
+            logFile.write("\n\t\tP" + str(j) + ":\t\t\t" + str(round(fitFunction[i].GetParameter(j),3)) + " +- " + str(round(fitFunction[i].GetParError(j),3)))
+    logFile.write("\n-----\n")
+    logFile.close()
 
 
 def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntries=0, plotName=0, legendHeader=0, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size"):
@@ -340,14 +356,15 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
 
 # ------------------------------------------------------------------------------
 
+
 fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "0deg-290um-864e-CT_analysed.root"]
 legendEntries = ["Sim - 300um", "AUW", "new Sim."]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "diff"      
 legendHeader = "Data points"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
 
 
 fileNames =  ["rot0deg-300um-noCT_analysed.root"]
