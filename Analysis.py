@@ -2,10 +2,10 @@
 
 from ROOT import TFile, TH1D, TH2D, TMath
 import numpy as np
+from datetime import datetime as date
 
 
 def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
-    # path = "/home/b/pCloudDrive/Work/MgrThesis/Prog/AllPix/tb/output/"
     rootFile = TFile("data/raw/" + inputName)
     if outputName == 0: outputName = inputName.split("_")[0] + "_analysed.root"
     print("INPUT:", inputName, "\nOUTPUT:", outputName)
@@ -14,9 +14,7 @@ def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
     thickness = rootFile.models.Get("atlas17_dut").Get("sensor_thickness")  # itk_strip2_dut or atlas17_dut
     scaleXFactor = 1  # otherwise int(str(thickness).strip("um"))
     nOfStrips = int(str(rootFile.models.Get("atlas17_dut").Get("number_of_pixels")).split(" ")[0])  # itk_strip2_dut or atlas17_dut
-    # orientation = rootFile.detectors.Get("dut").Get("orientation")
-    print("CONFIG: Sensor:", thickness, ",  Events:", nOfParts, ", scaleXFactor:", scaleXFactor, ", nOfStrips:",
-          nOfStrips, ", CT_StS:", CT_StS, ", CT_StBP:", CT_StBP)
+    print("CONFIG: Sensor:", thickness, ",  Events:", nOfParts, ", scaleXFactor:", scaleXFactor, ", nOfStrips:", nOfStrips, ", CT_StS:", CT_StS, ", CT_StBP:", CT_StBP)
 
     writeFile = TFile("data/" + outputName, "recreate")
     hitTree = rootFile.PixelCharge
@@ -59,6 +57,11 @@ def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
     rootFile.Close()
     writeFile.Write()
     writeFile.Close()
+
+    logFile = open("data/log_analysis.txt", "a")
+    logFile.writelines("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "thickness=" + str(thickness) + "  events=" + str(nOfParts) + "  scaleXfactor=" + str(scaleXFactor) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC))
+    logFile.write("\n-----\n")
+    logFile.close()
 
 
 # ------------------------------------------------------------------------
