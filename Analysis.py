@@ -58,7 +58,7 @@ def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
     writeFile.Write()
     writeFile.Close()
 
-    logFile = open("data/log_analysis.txt", "a")
+    logFile = open("log_analysis.txt", "a")
     logFile.writelines("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "thickness=" + str(thickness) + "  events=" + str(nOfParts) + "  scaleXfactor=" + str(scaleXFactor) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC))
     logFile.write("\n-----\n")
     logFile.close()

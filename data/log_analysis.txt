@@ -1,6 +1,0 @@
-
-OUTPUT:	test.root
-INPUT:	0deg-290um-864e_output.root
-DATE:	2019-12-11 12:35:34.262066
-CONFIG:	thickness=290um  events=50000  scaleXfactor=1  CT_StS=0.0  CT_StBP=0.0  thrStep=8
------
