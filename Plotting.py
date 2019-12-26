@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from ROOT import TFile, TCanvas, TH1D, gStyle, TBrowser, TLegend, TMath, TF1, TGraph, Double, TLine, TLatex
+from ROOT import TFile, TCanvas, TH1D, gStyle, TBrowser, TLegend, TMath, TF1, TGraph, Double, TLine, TLatex, TPad
 from datetime import datetime as date
 
 
@@ -34,11 +34,19 @@ def InterpolateHist(hist, x):
     return (xL,yL,xR,yR,y)
 
 
-def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntries=[], plotName=0, legendHeader=0, refOption=0, axisTitleX="Threshold [fC]", axisTitleY="Efficiency"):
+def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntries=[], plotName=0, legendHeader=0, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency", plotRatio=0):
     """
     Pass a list of root files to have the efficiency plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
     """
+
     canvas = TCanvas("c1", "c1", 500,500)
+    if plotRatio == 1: 
+        mainPad = TPad("mainPad", "mainPad", 0, 0.28, 1, 1)
+        mainPad.Draw()
+        ratioPad = TPad("ratioPad","ratioPad", 0, 0, 1, 0.32)
+        ratioPad.Draw()
+        mainPad.cd()
+    
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)           #hides title
 
@@ -53,6 +61,8 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     axisRangeYLow = 0
     axisRangeYHigh = 1.02
 
+    doChi2 = 1
+
     markerSize = 0.8
     textSize = 0.030
     effHist = []
@@ -62,6 +72,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     refFile = []
     effRefPoints = []
     effRefFunc = []
+    effRatio = []
     
     # Preparation and checks
     if fileNames == 0: 
@@ -96,6 +107,15 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         print("Number of files and legend entries different.")
         return 1
 
+    if len(fileNames) == len(refFileNames):
+        chi2Mode = "toEach"
+    else:
+        chi2Mode = "toOne"
+
+    # if len(refFileNames) != 1 and plotRatio == 1:
+    #     print("Plot ratio impossible with other than 1 reference file.")
+    #     return 1
+
     print ("PLOTTING", len(fileNames), "FILES ", end="")
     if refFileNames != 0: print("AND REFERENCE", end="")
     print("\n")
@@ -113,8 +133,8 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         
         if i == 0:              
             effHist[i].SetTitle("Efficiency - " + plotName)
-            effHist[i].GetXaxis().SetTitle(axisTitleX)
-            effHist[i].GetYaxis().SetTitle(axisTitleY)
+            #effHist[i].GetXaxis().SetTitle(axisTitleX)
+            #effHist[i].GetYaxis().SetTitle(axisTitleY)
             effHist[i].SetAxisRange(axisRangeYLow, axisRangeYHigh, "Y")
             effHist[i].SetAxisRange(axisRangeXLow, axisRangeXHigh, "X")
             effHist[i].Draw()            #() for points, ("AXIS") for just the axes
@@ -124,7 +144,6 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         fitFunction.append(TF1("fitFunc"+str(i), fitForm, 0, 8))
         fitFunction[i].SetParameters(1, 4, 1, 1, 0.5)
         fitFunction[i].SetParLimits(4, 0.5, 0.7)
-        # fitFunction[i].FixParameter(0,1)
         fitFunction[i].SetParLimits(1, 0, 5)
         fitFunction[i].SetParLimits(2, 0, 2)
         fitFunction[i].SetParLimits(3, 0, 2)
@@ -170,14 +189,16 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             effRefFunc[i].Draw("Lsame")
                         
             # get chi2 of Data-MC
-            doChi2 = 1
-            if doChi2 == 1:
+            if doChi2 == 1 and chi2Mode == "toEach":
                 chisquares.append(0)
                 lines.append([])
                 interpLines.append([])
-                # effRefPoints[i].Print()
+                
+                if plotRatio == 1:
+                    effRatio.append(TGraph(effRefPoints[i].GetN()))
+
                 for j in range(effRefPoints[i].GetN()):
-                    (x,y,ey) = (effRefPoints[i].GetX()[j],effRefPoints[i].GetY()[j],effRefPoints[i].GetEY()[j])      
+                    (x, y, ey) = (effRefPoints[i].GetX()[j], effRefPoints[i].GetY()[j], effRefPoints[i].GetEY()[j])      
                     (xL, yL, xR, yR, fy) = InterpolateHist(effHist[i], x)  
                     #fy = fitFunction[i].Eval(x)
                     # interpLines[-1].append(TLine(xL, yL, xR, yR))
@@ -189,8 +210,17 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
                     # lines[-1][-1].SetLineColor(2)
                     # lines[-1][-1].SetLineWidth(2)
                     # lines[-1][-1].Draw("same")
-                print("chi2/NDF =", chisquares[i], "/", effRefPoints[i].GetN())
                     
+                    if plotRatio == 1:
+                        effRatio[-1].SetPoint(j, x, y/fy)
+                  
+                print("chi2/NDF =", chisquares[i], "/", effRefPoints[i].GetN())
+
+    if doChi2 == 1 and chi2Mode == "toOne":
+        for i in range(len(effHist)):
+            pass
+
+
     # Legend
     legendWidth = 0.9 - 0.013*max([len(max(legendEntries, key=len))+5, len(legendHeader), len(refLegendEntries)+5])
     legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05-0.05
@@ -203,7 +233,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         legend.AddEntry(fitFunction[i], legendEntries[i], "pl")
     legend.Draw("same")
 
-    #Print Chi2/NDF
+    # Print Chi2/NDF
     doChi2 = 1
     if doChi2 == 1:     
         textHeader = TLatex(4.8, legendHeight-0.12, " #bf{#chi^{2}/ndf_{(data - sim)}}")
@@ -226,6 +256,27 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             # lineBottom.Draw("same")
             # lineHeader = TLine(5.22, legendHeight-0.125, 7.04, legendHeight-0.125)
             # lineHeader.Draw("same")
+
+    # Plot ratio histograms
+    ratioPad.cd()
+    
+    for i in range(len(effRatio)):
+        if i == 0:
+            effRatio[i].GetYaxis().SetRangeUser(0.8, 1.2)
+            effRatio[i].GetXaxis().SetLimits(axisRangeXLow, axisRangeXHigh)
+            effRatio[i].GetXaxis().SetTitle(axisTitleX)
+            effRatio[i].GetYaxis().SetTitle("sim/data")
+            effRatio[i].Draw()
+        else:
+            effRatio[i].Draw("same")
+
+        effRatio[i].SetLineColor(color[i])
+        effRatio[i].SetMarkerStyle(20)
+        effRatio[i].SetMarkerSize(0.6)
+    oneLine = TLine(axisRangeXLow, 1, axisRangeXHigh, 1)
+    oneLine.SetLineColor(13)
+    oneLine.Draw("same")   
+
 
     # Print and save
     canvas.SaveAs("results/" + plotName + "_eff.pdf")
@@ -281,7 +332,7 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     
     if refFileNames != 0 and refLegendEntries == 0:
         print("No reference legend entry passed, assuming from file name.")
-        refLegendEntries = refFileName.split(".")[0].strip("ref_")
+        return 1
 
     if legendHeader == 0:
         print("No legend header provided.")
@@ -363,7 +414,7 @@ refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "diff"      
 legendHeader = "Data points"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
 #PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
 
 
@@ -393,7 +444,7 @@ refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12deg
 refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
 plotName = "chi_testing_Y2"
 legendHeader = "Sensor rotation (y-axis):"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", plotRatio=1)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
 
