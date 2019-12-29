@@ -2,6 +2,7 @@
 
 from ROOT import TFile, TCanvas, TH1D, gStyle, TBrowser, TLegend, TMath, TF1, TGraph, Double, TLine, TLatex, TPad
 from datetime import datetime as date
+from math import ceil
 
 
 def InterpolateHist(hist, x):
@@ -40,13 +41,22 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     """
 
     canvas = TCanvas("c1", "c1", 500,500)
+    
     if plotRatio == 1: 
-        mainPad = TPad("mainPad", "mainPad", 0, 0.28, 1, 1)
+        mainPadYlow = 0.275
+        ratioPadYhigh = 0.265
+        mainPadMargin = ratioPadMargin = 0.085
+        mainToRatio = (1 - mainPadYlow + ratioPadMargin + mainPadMargin*(1-mainPadYlow)) / ratioPadYhigh
+
+        mainPad = TPad("mainPad", "mainPad", 0, mainPadYlow, 1, 1)
+        mainPad.SetBottomMargin(mainPadMargin)
         mainPad.Draw()
-        ratioPad = TPad("ratioPad","ratioPad", 0, 0, 1, 0.32)
+         
+        ratioPad = TPad("ratioPad","ratioPad", 0, 0, 1, ratioPadYhigh)
+        ratioPad.SetTopMargin(ratioPadMargin)
         ratioPad.Draw()
         mainPad.cd()
-    
+
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)           #hides title
 
@@ -133,10 +143,11 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         
         if i == 0:              
             effHist[i].SetTitle("Efficiency - " + plotName)
-            #effHist[i].GetXaxis().SetTitle(axisTitleX)
-            #effHist[i].GetYaxis().SetTitle(axisTitleY)
+            effHist[i].GetXaxis().SetTitle(axisTitleX)
+            effHist[i].GetYaxis().SetTitle(axisTitleY)
             effHist[i].SetAxisRange(axisRangeYLow, axisRangeYHigh, "Y")
             effHist[i].SetAxisRange(axisRangeXLow, axisRangeXHigh, "X")
+            effHist[i].GetXaxis().SetTitleOffset(1.1)
             effHist[i].Draw()            #() for points, ("AXIS") for just the axes
         else:                   
             effHist[i].Draw("same")
@@ -188,7 +199,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             effRefFunc[i].SetLineStyle(lineStyle[-i-1])
             effRefFunc[i].Draw("Lsame")
                         
-            # get chi2 of Data-MC
+            # Get Chi2 of Data-MC for "toEach" mode
             if doChi2 == 1 and chi2Mode == "toEach":
                 chisquares.append(0)
                 lines.append([])
@@ -200,7 +211,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
                 for j in range(effRefPoints[i].GetN()):
                     (x, y, ey) = (effRefPoints[i].GetX()[j], effRefPoints[i].GetY()[j], effRefPoints[i].GetEY()[j])      
                     (xL, yL, xR, yR, fy) = InterpolateHist(effHist[i], x)  
-                    #fy = fitFunction[i].Eval(x)
+                    # fy = fitFunction[i].Eval(x)
                     # interpLines[-1].append(TLine(xL, yL, xR, yR))
                     # interpLines[-1][-1].SetLineColor(2)
                     # interpLines[-1][-1].SetLineWidth(2)
@@ -210,19 +221,26 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
                     # lines[-1][-1].SetLineColor(2)
                     # lines[-1][-1].SetLineWidth(2)
                     # lines[-1][-1].Draw("same")
-                    
                     if plotRatio == 1:
-                        effRatio[-1].SetPoint(j, x, y/fy)
-                  
-                print("chi2/NDF =", chisquares[i], "/", effRefPoints[i].GetN())
+                        effRatio[-1].SetPoint(j, x, y - fy)
+                # print("chi2/NDF =", chisquares[i], "/", effRefPoints[i].GetN())
 
-    if doChi2 == 1 and chi2Mode == "toOne":
+    # Get Chi2 of Data-MC for "toOne" mode
+    if doChi2 == 1 and chi2Mode == "toOne":       
         for i in range(len(effHist)):
-            pass
-
+            if plotRatio == 1:  effRatio.append(TGraph(effRefPoints[0].GetN()))
+            chisquares.append(0)
+            for j in range(effRefPoints[0].GetN()):
+                (x, y, ey) = (effRefPoints[0].GetX()[j], effRefPoints[0].GetY()[j], effRefPoints[0].GetEY()[j])
+                (xL, yL, xR, yR, fy) = InterpolateHist(effHist[i], x) 
+                chisquares[-1] += (y-fy)**2/ey**2
+                if plotRatio == 1:
+                    effRatio[-1].SetPoint(j, x, y - fy)
 
     # Legend
-    legendWidth = 0.9 - 0.013*max([len(max(legendEntries, key=len))+5, len(legendHeader), len(refLegendEntries)+5])
+    if plotRatio == 1: legendWidthCoeff = 0.011
+    else: legendWidthCoeff = 0.014
+    legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+4, len(legendHeader), len(max(refLegendEntries, key=len))+4])
     legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05-0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
     legend.SetHeader(legendHeader,"C")
@@ -234,48 +252,60 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     legend.Draw("same")
 
     # Print Chi2/NDF
-    doChi2 = 1
-    if doChi2 == 1:     
-        textHeader = TLatex(4.8, legendHeight-0.12, " #bf{#chi^{2}/ndf_{(data - sim)}}")
+    if doChi2 == 1 and chi2Mode == "toEach":     
+        textHeader = TLatex(4.6, legendHeight-0.12, " #bf{#chi^{2}/ndf_{(data - sim)}}")
         textHeader.SetTextSize(textSize)
-        
         textHeader.Draw("same")
         texts = []
         for i in range(len(chisquares)):
-            texts.append( TLatex(4.8, legendHeight-(i+1)*0.05-0.13, "#bf{" + str(round(chisquares[i],0)) + "/" + str(effRefPoints[i].GetN()) + " = "+ str(round(chisquares[i]/effRefPoints[i].GetN(),1)) + "}" ))
+            texts.append( TLatex(4.6, legendHeight-(i+1)*0.05-0.13, "#bf{" + str(round(chisquares[i],0)) + "/" + str(effRefPoints[i].GetN()) + " = "+ str(round(chisquares[i]/effRefPoints[i].GetN(),1)) + "}" ))
+            texts[i].SetTextSize(textSize)
+            texts[i].SetTextColor(color[i])
+            texts[i].Draw("same")
+    
+    elif doChi2 == 1 and chi2Mode == "toOne":
+        textHeader = TLatex(4.8, legendHeight-0.12, " #bf{#chi^{2}/ndf_{(data - sim)}}")
+        textHeader.SetTextSize(textSize)
+        # print(chisquares)
+        textHeader.Draw("same")
+        texts = []
+        for i in range(len(chisquares)):
+            texts.append( TLatex(4.8, legendHeight-(i+1)*0.05-0.13, "#bf{       " + str(round(chisquares[i]/effRefPoints[0].GetN(),1)) + "}" ))
             texts[i].SetTextSize(textSize)
             texts[i].SetTextColor(color[i])
             texts[i].Draw("same")
 
-            # draw box around chi2/ndf text
-            # lineLeft = TLine(5.22, legendHeight-(len(chisquares)+1)*0.05-0.09, 5.22, legendHeight-0.06)
-            # lineLeft.Draw("same")
-            # lineTop = TLine(5.22, legendHeight-0.06, 7.04, legendHeight-0.06)
-            # lineTop.Draw("same")
-            # lineBottom = TLine(5.22, legendHeight-(len(chisquares)+2)*0.05-0.04, 7.04, legendHeight-(len(chisquares)+2)*0.05-0.04)
-            # lineBottom.Draw("same")
-            # lineHeader = TLine(5.22, legendHeight-0.125, 7.04, legendHeight-0.125)
-            # lineHeader.Draw("same")
-
-    # Plot ratio histograms
-    ratioPad.cd()
-    
-    for i in range(len(effRatio)):
-        if i == 0:
-            effRatio[i].GetYaxis().SetRangeUser(0.8, 1.2)
-            effRatio[i].GetXaxis().SetLimits(axisRangeXLow, axisRangeXHigh)
-            effRatio[i].GetXaxis().SetTitle(axisTitleX)
-            effRatio[i].GetYaxis().SetTitle("sim/data")
-            effRatio[i].Draw()
-        else:
-            effRatio[i].Draw("same")
-
-        effRatio[i].SetLineColor(color[i])
-        effRatio[i].SetMarkerStyle(20)
-        effRatio[i].SetMarkerSize(0.6)
-    oneLine = TLine(axisRangeXLow, 1, axisRangeXHigh, 1)
-    oneLine.SetLineColor(13)
-    oneLine.Draw("same")   
+    # Plot ratio graphs
+    if plotRatio == 1:
+        ratioPad.cd()
+        axisCenter = 0
+        axisShift = ceil(10*max([max(abs(gr.GetHistogram().GetMinimum()), gr.GetHistogram().GetMaximum()) for gr in effRatio]))/10
+        
+        for i in range(len(effRatio)):
+            effRatio[i].SetLineColor(color[i])
+            effRatio[i].SetMarkerStyle(20)
+            effRatio[i].SetMarkerColor(color[i])
+            effRatio[i].SetMarkerSize(markerSize*0.7)
+            effRatio[i].SetMarkerStyle(markerStyle[i])
+            effRatio[i].SetLineWidth(2)
+            if i == 0:
+                effRatio[i].GetYaxis().SetRangeUser(axisCenter-axisShift, axisCenter+axisShift)
+                effRatio[i].GetYaxis().SetTitle("Data - Sim.")
+                effRatio[i].GetYaxis().SetTitleSize(textSize*mainToRatio)
+                effRatio[i].GetYaxis().SetTitleOffset(0.42)
+                effRatio[i].GetYaxis().SetLabelSize(textSize*mainToRatio)
+                effRatio[i].GetYaxis().SetNdivisions(6,5,1)
+            
+                effRatio[i].GetXaxis().SetLimits(axisRangeXLow, axisRangeXHigh + 0.04)
+                effRatio[i].GetXaxis().SetLabelSize(textSize*mainToRatio)
+                effRatio[i].GetXaxis().SetTickSize(0.08)
+                effRatio[i].GetXaxis().SetLabelOffset(-0.02)
+                effRatio[i].Draw("ALPX+")
+            else:
+                effRatio[i].Draw("sameLP")
+        oneLine = TLine(axisRangeXLow+0.1, axisCenter, axisRangeXHigh+0.04, axisCenter)
+        oneLine.SetLineColor(13)
+        oneLine.Draw("same")   
 
 
     # Print and save
@@ -412,10 +442,10 @@ fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.roo
 legendEntries = ["Sim - 300um", "AUW", "new Sim."]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
-plotName = "diff"      
+plotName = "toOne"      
 legendHeader = "Data points"                        
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
-#PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
 
 
 fileNames =  ["rot0deg-300um-noCT_analysed.root"]
@@ -442,7 +472,7 @@ fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.r
 legendEntries = ["0 deg - Simulation",  "5 deg - Simulation", "12 deg - Simulation"]
 refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12degy-testbeam.root"]
 refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
-plotName = "chi_testing_Y2"
+plotName = "toEach"
 legendHeader = "Sensor rotation (y-axis):"                        
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", plotRatio=1)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
