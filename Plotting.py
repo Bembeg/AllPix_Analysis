@@ -41,9 +41,9 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
 
     canvas = TCanvas("c1", "c1", 500,500)
     if plotRatio == 1: 
-        mainPad = TPad("mainPad", "mainPad", 0, 0.28, 1, 1)
+        mainPad = TPad("mainPad", "mainPad", 0, 0.32, 1, 1)
         mainPad.Draw()
-        ratioPad = TPad("ratioPad","ratioPad", 0, 0, 1, 0.32)
+        ratioPad = TPad("ratioPad","ratioPad", 0, 0.1, 1, 0.34)
         ratioPad.Draw()
         mainPad.cd()
     
@@ -133,8 +133,8 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         
         if i == 0:              
             effHist[i].SetTitle("Efficiency - " + plotName)
-            #effHist[i].GetXaxis().SetTitle(axisTitleX)
-            #effHist[i].GetYaxis().SetTitle(axisTitleY)
+            # effHist[i].GetXaxis().SetTitle(axisTitleX)
+            effHist[i].GetYaxis().SetTitle(axisTitleY)
             effHist[i].SetAxisRange(axisRangeYLow, axisRangeYHigh, "Y")
             effHist[i].SetAxisRange(axisRangeXLow, axisRangeXHigh, "X")
             effHist[i].Draw()            #() for points, ("AXIS") for just the axes
@@ -258,25 +258,28 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             # lineHeader.Draw("same")
 
     # Plot ratio histograms
+
     ratioPad.cd()
-    
     for i in range(len(effRatio)):
         if i == 0:
             effRatio[i].GetYaxis().SetRangeUser(0.8, 1.2)
             effRatio[i].GetXaxis().SetLimits(axisRangeXLow, axisRangeXHigh)
             effRatio[i].GetXaxis().SetTitle(axisTitleX)
             effRatio[i].GetYaxis().SetTitle("sim/data")
+            effRatio[i].GetYaxis().SetTitleSize(textSize*2.5)
+            effRatio[i].GetYaxis().SetTitleOffset(0.5)
+            effRatio[i].GetXaxis().SetTitleSize(textSize*2.5)
+            effRatio[i].GetXaxis().SetTitleOffset(0.5)
             effRatio[i].Draw()
         else:
             effRatio[i].Draw("same")
-
         effRatio[i].SetLineColor(color[i])
         effRatio[i].SetMarkerStyle(20)
         effRatio[i].SetMarkerSize(0.6)
+        effRatio[i].SetMarkerColor(color[i])
     oneLine = TLine(axisRangeXLow, 1, axisRangeXHigh, 1)
     oneLine.SetLineColor(13)
     oneLine.Draw("same")   
-
 
     # Print and save
     canvas.SaveAs("results/" + plotName + "_eff.pdf")
@@ -444,7 +447,7 @@ refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12deg
 refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
 plotName = "chi_testing_Y2"
 legendHeader = "Sensor rotation (y-axis):"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", plotRatio=1)
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
 
