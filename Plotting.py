@@ -39,7 +39,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     Pass a list of root files to have the efficiency plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
     """
 
-    canvas = TCanvas("c1", "c1", 500,500)
+    canvas = TCanvas("c1", "c1", 600,600)
     if plotRatio == 1: 
         mainPad = TPad("mainPad", "mainPad", 0, 0.32, 1, 1)
         mainPad.Draw()
@@ -56,14 +56,19 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     
+    # override for direct 1 to 1 comparisons
+    color = [2,4]
+    markerStyle = [21, 21]
+    lineStyle = [1,1]
+
     axisRangeXLow = 1
     axisRangeXHigh = 6
     axisRangeYLow = 0
     axisRangeYHigh = 1.02
 
-    doChi2 = 1
+    doChi2 = 0
 
-    markerSize = 0.8
+    markerSize = 1
     textSize = 0.030
     effHist = []
     effTitle = []
@@ -133,7 +138,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         
         if i == 0:              
             effHist[i].SetTitle("Efficiency - " + plotName)
-            # effHist[i].GetXaxis().SetTitle(axisTitleX)
+            if plotRatio == 0:  effHist[i].GetXaxis().SetTitle(axisTitleX)
             effHist[i].GetYaxis().SetTitle(axisTitleY)
             effHist[i].SetAxisRange(axisRangeYLow, axisRangeYHigh, "Y")
             effHist[i].SetAxisRange(axisRangeXLow, axisRangeXHigh, "X")
@@ -234,7 +239,6 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     legend.Draw("same")
 
     # Print Chi2/NDF
-    doChi2 = 1
     if doChi2 == 1:     
         textHeader = TLatex(4.8, legendHeight-0.12, " #bf{#chi^{2}/ndf_{(data - sim)}}")
         textHeader.SetTextSize(textSize)
@@ -258,28 +262,28 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             # lineHeader.Draw("same")
 
     # Plot ratio histograms
-
-    ratioPad.cd()
-    for i in range(len(effRatio)):
-        if i == 0:
-            effRatio[i].GetYaxis().SetRangeUser(0.8, 1.2)
-            effRatio[i].GetXaxis().SetLimits(axisRangeXLow, axisRangeXHigh)
-            effRatio[i].GetXaxis().SetTitle(axisTitleX)
-            effRatio[i].GetYaxis().SetTitle("sim/data")
-            effRatio[i].GetYaxis().SetTitleSize(textSize*2.5)
-            effRatio[i].GetYaxis().SetTitleOffset(0.5)
-            effRatio[i].GetXaxis().SetTitleSize(textSize*2.5)
-            effRatio[i].GetXaxis().SetTitleOffset(0.5)
-            effRatio[i].Draw()
-        else:
-            effRatio[i].Draw("same")
-        effRatio[i].SetLineColor(color[i])
-        effRatio[i].SetMarkerStyle(20)
-        effRatio[i].SetMarkerSize(0.6)
-        effRatio[i].SetMarkerColor(color[i])
-    oneLine = TLine(axisRangeXLow, 1, axisRangeXHigh, 1)
-    oneLine.SetLineColor(13)
-    oneLine.Draw("same")   
+    if plotRatio == 1:
+        ratioPad.cd()
+        for i in range(len(effRatio)):
+            if i == 0:
+                effRatio[i].GetYaxis().SetRangeUser(0.8, 1.2)
+                effRatio[i].GetXaxis().SetLimits(axisRangeXLow, axisRangeXHigh)
+                effRatio[i].GetXaxis().SetTitle(axisTitleX)
+                effRatio[i].GetYaxis().SetTitle("sim/data")
+                effRatio[i].GetYaxis().SetTitleSize(textSize*2.5)
+                effRatio[i].GetYaxis().SetTitleOffset(0.5)
+                effRatio[i].GetXaxis().SetTitleSize(textSize*2.5)
+                effRatio[i].GetXaxis().SetTitleOffset(0.5)
+                effRatio[i].Draw()
+            else:
+                effRatio[i].Draw("same")
+            effRatio[i].SetLineColor(color[i])
+            effRatio[i].SetMarkerStyle(20)
+            effRatio[i].SetMarkerSize(0.6)
+            effRatio[i].SetMarkerColor(color[i])
+        oneLine = TLine(axisRangeXLow, 1, axisRangeXHigh, 1)
+        oneLine.SetLineColor(13)
+        oneLine.Draw("same")   
 
     # Print and save
     canvas.SaveAs("results/" + plotName + "_eff.pdf")
@@ -308,13 +312,18 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     color = [1,2,4,6,9,9,6,4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
-    markerSize = 0.6
+    markerSize = 1
     textSize = 0.030
+
+    # override for direct 1 to 1 comparisons
+    color = [2,4]
+    markerStyle = [21, 21]
+    lineStyle = [1,1]
 
     axisRangeXLow = 0
     axisRangeXHigh = 6
     axisRangeYLow = 1
-    axisRangeYHigh = 1.7
+    axisRangeYHigh = 1.3
     
     clusTitle = []
     rootFile = []
@@ -417,7 +426,7 @@ refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "diff"      
 legendHeader = "Data points"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
 #PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
 
 
@@ -441,14 +450,14 @@ legendHeader = "Crosstalk:"
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
 
-fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.root", "y12deg-290um-864e-CT_analysed.root"] 
-legendEntries = ["0 deg - Simulation",  "5 deg - Simulation", "12 deg - Simulation"]
-refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12degy-testbeam.root"]
-refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
-plotName = "chi_testing_Y2"
-legendHeader = "Sensor rotation (y-axis):"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+fileNames = ["0deg-290um-864e-CT_analysed.root"] 
+legendEntries = ["AllPix-Squared"]
+refFileNames =  ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam"]
+plotName = "0deg"
+legendHeader = "Data points:"                        
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
 
 
 fileNames = ["0deg-290um-864e-CT_analysed.root", "x23deg-290um-864e-CT_analysed.root"]
