@@ -235,7 +235,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
                 (xL, yL, xR, yR, fy) = InterpolateHist(effHist[i], x) 
                 chisquares[-1] += (y-fy)**2/ey**2
                 if plotRatio == 1:
-                    effRatio[-1].SetPoint(j, x, y - fy)
+                    effRatio[-1].SetPoint(j, x, y / fy)
 
     # Legend
     if plotRatio == 1: legendWidthCoeff = 0.011
@@ -278,8 +278,9 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     # Plot ratio graphs
     if plotRatio == 1:
         ratioPad.cd()
-        axisCenter = 0
+        axisCenter = 1
         axisShift = ceil(10*max([max(abs(gr.GetHistogram().GetMinimum()), gr.GetHistogram().GetMaximum()) for gr in effRatio]))/10
+        axisShift = 0.5
         
         for i in range(len(effRatio)):
             effRatio[i].SetLineColor(color[i])
@@ -290,7 +291,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             effRatio[i].SetLineWidth(2)
             if i == 0:
                 effRatio[i].GetYaxis().SetRangeUser(axisCenter-axisShift, axisCenter+axisShift)
-                effRatio[i].GetYaxis().SetTitle("Data - Sim.")
+                effRatio[i].GetYaxis().SetTitle("Data / Sim.")
                 effRatio[i].GetYaxis().SetTitleSize(textSize*mainToRatio)
                 effRatio[i].GetYaxis().SetTitleOffset(0.42)
                 effRatio[i].GetYaxis().SetLabelSize(textSize*mainToRatio)
@@ -442,7 +443,7 @@ fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.roo
 legendEntries = ["Sim - 300um", "AUW", "new Sim."]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
-plotName = "toOne"      
+plotName = "toOne_div"      
 legendHeader = "Data points"                        
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX, axisTitleY="Average cluster size")
@@ -472,7 +473,7 @@ fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.r
 legendEntries = ["0 deg - Simulation",  "5 deg - Simulation", "12 deg - Simulation"]
 refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12degy-testbeam.root"]
 refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
-plotName = "toEach"
+plotName = "toEach_div"
 legendHeader = "Sensor rotation (y-axis):"                        
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", plotRatio=1)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
