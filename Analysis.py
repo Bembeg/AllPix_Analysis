@@ -65,20 +65,19 @@ def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
 
 
 # ------------------------------------------------------------------------
-
 # Cc = 24, Cb = 0.25+0.2, Ci = 0.8
 # CT_StS = 1,58%, CT_StBP = 1,78%
 
 # Cc = 24, Cb = 0.25, Ci = 0.8
-# CT_Sts = 2.09%, CT_StBP = 1%
+# CT_Sts = 1,59%, CT_StBP = 1%
 
 # Cc = 20, Cb = 0.45, Ci = 0.8
-# CT_StS = 2,94%, CT_StBP = 2,11%
+# CT_StS = 1,88%, CT_StBP = 2,11%
 
-RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", CT_StS=0.0158, CT_StBP=0.018)
-RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", CT_StS=0.0158, CT_StBP=0.018)
-RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", CT_StS=0.0158, CT_StBP=0.018)
-RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", CT_StS=0.0158, CT_StBP=0.018)
+# RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
+RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
+RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
+RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
 
 # RunAnalysis("rot0deg-300um_output.root","rot0deg-300um-noCT_analysed.root", CT_StS=0.00, CT_StBP=0.00)
 # RunAnalysis("rot0deg-300um_output.root","rot0deg-300um-CT_analysed.root", CT_StS=0.042, CT_StBP=0.012)
