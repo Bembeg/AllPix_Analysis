@@ -3,36 +3,52 @@
 from ROOT import TFile, TH1D, TH2D, TMath
 import numpy as np
 from datetime import datetime as date
+ 
 
-
-def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
-    rootFile = TFile("data/raw/" + inputName)
-    if outputName == 0: outputName = inputName.split("_")[0] + "_analysed.root"
+def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
+    if outputName == 0: 
+        outputName = inputName.split("_")[0] + "_analysed.root"
     print("INPUT:", inputName, "\nOUTPUT:", outputName)
-
-    nOfParts = int(str(rootFile.config.Get("Allpix").Get("number_of_events")))
-    thickness = rootFile.models.Get("atlas17_dut").Get("sensor_thickness")  # itk_strip2_dut or atlas17_dut
-    scaleXFactor = 1  # otherwise int(str(thickness).strip("um"))
-    nOfStrips = int(str(rootFile.models.Get("atlas17_dut").Get("number_of_pixels")).split(" ")[0])  # itk_strip2_dut or atlas17_dut
-    print("CONFIG: Sensor:", thickness, ",  Events:", nOfParts, ", scaleXFactor:", scaleXFactor, ", nOfStrips:", nOfStrips, ", CT_StS:", CT_StS, ", CT_StBP:", CT_StBP)
-
-    writeFile = TFile("data/" + outputName, "recreate")
-    hitTree = rootFile.PixelCharge
-
-    (thrStartFC, thrEndFC, thrStepFC) = (0, 8, 0.2)
+    rootFile = TFile("data/raw/" + inputName)
+    writeFile = TFile("data/" + outputName, "recreate") 
+    
+    (thrStartFC, thrEndFC, thrStepFC) = (0, 8, 0.1)
     effTitle = "Efficiency - " + outputName.split("_")[0]
-    effHist = TH1D(effTitle, effTitle, 200, thrStartFC / scaleXFactor, thrEndFC / scaleXFactor)
+    effHist = TH1D(effTitle, effTitle, 200, thrStartFC, thrEndFC)
     clusTitle = "Cluster Size - " + outputName.split("_")[0]
-    clusHist = TH2D(clusTitle, clusTitle, 200, thrStartFC / scaleXFactor, thrEndFC / scaleXFactor, 1600, 0, 10)
+    clusHist = TH2D(clusTitle, clusTitle, 200, thrStartFC, thrEndFC, 1600, 0, 10)
 
+    if source == "athena":
+        hitTree = rootFile.Get("SCT_RDOAnalysis").Get("SCT_RDOAna")
+        nOfStrips = 1280    # Figure out a way to get nOfStrips from the file instead of hard-code
+        nOfParts = 0
+        for event in hitTree:
+            if len(list(event.charge)) > 0:
+                nOfParts += 1 
+    elif source == "allpix":
+        hitTree = rootFile.PixelCharge
+        nOfStrips = int(str(rootFile.models.Get("atlas17_dut").Get("number_of_pixels")).split(" ")[0])
+        nOfParts = int(str(rootFile.config.Get("Allpix").Get("number_of_events")))
+    else:
+        print("Unknown source.")
+        return 1
+
+    print("CONFIG: Source:", source, ",  Events:", nOfParts, ",  CT_StS:", CT_StS, ",  CT_StBP:", CT_StBP)
+        
     for thr in np.arange(thrStartFC, thrEndFC, thrStepFC):
         thrE = thr * 6242.2
         print("Current threshold [fC]:", round(thr, 1), end="\r")
         for event in hitTree:  # iterating over all events
             stripCharge = np.zeros(nOfStrips)
-            for stripHit in event.dut:  # iterating over all strips hit in that event
-                stripCharge[stripHit.getIndex().X()] = stripHit.getCharge()
-
+            if source == "allpix":
+                for stripHit in event.dut:    # iterating over all strips hit in that event of Allpix simulation
+                    stripCharge[stripHit.getIndex().X()] = stripHit.getCharge()
+            elif source == "athena":
+                nonEmptyStrips = list(event.strip_sdo)
+                nonEmptyStripsCharge = list(event.charge)
+                for i in range(len(nonEmptyStrips)):    # iterating over all strips hit in that event of Athena simulation
+                    stripCharge[nonEmptyStrips[i]] = nonEmptyStripsCharge[i]
+                
             stripChargeAdj = np.copy(stripCharge)
             if CT_StBP > 0 and CT_StS > 0:
                 chargeMask = np.nonzero(stripCharge)
@@ -48,18 +64,19 @@ def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
 
             cluster = len(np.where(stripChargeAdj > thrE)[0])
             if cluster > 0:
-                effHist.Fill(thr / scaleXFactor)
-                clusHist.Fill(thr / scaleXFactor, cluster)
+                effHist.Fill(thr)
+                clusHist.Fill(thr, cluster)
 
     effHist.Scale(1 / nOfParts)
     clusHist = clusHist.ProfileX()
-    print("Analysis done.                           \n")
+    print("Analysis done.                                         \n")
     rootFile.Close()
     writeFile.Write()
     writeFile.Close()
 
     logFile = open("log_analysis.txt", "a")
-    logFile.writelines("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "thickness=" + str(thickness) + "  events=" + str(nOfParts) + "  scaleXfactor=" + str(scaleXFactor) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC))
+    # logFile.writelines("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "thickness=" + str(thickness) + "  events=" + str(nOfParts) + "  scaleXfactor=" + str(scaleXFactor) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC))
+    logFile.writelines(("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "  events=" + str(nOfParts) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC)))
     logFile.write("\n-----\n")
     logFile.close()
 
@@ -74,10 +91,10 @@ def RunAnalysis(inputName, outputName="", CT_StS=0.0, CT_StBP=0.0):
 # Cc = 20, Cb = 0.45, Ci = 0.8
 # CT_StS = 1,88%, CT_StBP = 2,11%
 
-# RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
-RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
-RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
-RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("0deg-290um-864e_output.root", "test.root", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", CT_StS=0.0188, CT_StBP=0.0211)
 
 # RunAnalysis("rot0deg-300um_output.root","rot0deg-300um-noCT_analysed.root", CT_StS=0.00, CT_StBP=0.00)
 # RunAnalysis("rot0deg-300um_output.root","rot0deg-300um-CT_analysed.root", CT_StS=0.042, CT_StBP=0.012)
@@ -102,4 +119,6 @@ RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root
 # RunAnalysis("rot0deg-EMV_output.root", CT_StS=0.042, CT_StBP=0.01)
 # RunAnalysis("rot0deg-EMZ_output.root", CT_StS=0.0159, CT_StBP=0.01)
 
-# RunAnalysis("0deg-290um-864e_output.root","test.root", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-290um-864e_output.root","test.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+
+RunAnalysis("0deg-athena_output.root", "0deg-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
