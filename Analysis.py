@@ -119,6 +119,6 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("rot0deg-EMV_output.root", CT_StS=0.042, CT_StBP=0.01)
 # RunAnalysis("rot0deg-EMZ_output.root", CT_StS=0.0159, CT_StBP=0.01)
 
-RunAnalysis("0deg-290um-864e_output.root","test.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-290um-864e_output.root","test.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 
 RunAnalysis("0deg-athena_output.root", "0deg-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)

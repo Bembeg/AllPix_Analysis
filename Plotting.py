@@ -255,7 +255,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     # Legend
     if plotRatio == 1: legendWidthCoeff = 0.011
     else: legendWidthCoeff = 0.014
-    legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+4, len(legendHeader)])#, len(max(refLegendEntries, key=len))+4])
+    legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+4, len(legendHeader), len(max(refLegendEntries, key=len))+4])
     legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05#-0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
     # legend.SetHeader(legendHeader,"C")
@@ -467,10 +467,10 @@ legendHeader = "Data points"
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 
-fileNames =  ["0deg-athena_analysed.root"]
-legendEntries = ["Athena"]
-refFileNames = []
-refLegendEntries = []            
+fileNames =  ["0deg-athena_analysed.root","0deg-290um-864e-CT_analysed.root"]
+legendEntries = ["Athena","Allpix"]
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam data"]            
 plotName = "Athena"      
 legendHeader = "Data points:"                        
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
