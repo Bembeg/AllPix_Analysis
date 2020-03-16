@@ -84,6 +84,54 @@ DATE:	2020-02-09 14:13:59.931433
 CONFIG:	  events=62  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
 -----
 
+<<<<<<< HEAD
+OUTPUT:	0deg-athena-fullCT_analysed.root
+INPUT:	0deg-athena-fullCT_output.root
+DATE:	2020-03-16 11:57:53.951519
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-athena-noCT_analysed.root
+INPUT:	0deg-athena-noCT_output.root
+DATE:	2020-03-16 12:10:41.674628
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-athena-noCT_analysed.root
+INPUT:	0deg-athena-noCT_output.root
+DATE:	2020-03-16 12:47:52.046262
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-athena-noCT_analysed.root
+INPUT:	0deg-athena-noCT_output.root
+DATE:	2020-03-16 13:05:44.417962
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test.root
+INPUT:	0deg-290um-864e_output.root
+DATE:	2020-03-16 13:30:56.270009
+CONFIG:	  events=50000  CT_StS=0.07  CT_StBP=0.1  thrStep=0.1
+-----
+
+OUTPUT:	0deg-athena-noCT_analysed.root
+INPUT:	0deg-athena-noCT_output.root
+DATE:	2020-03-16 13:40:32.339255
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-athena-noCT_analysed.root
+INPUT:	0deg-athena-noCT_output.root
+DATE:	2020-03-16 13:50:22.348551
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-athena-noCT_analysed.root
+INPUT:	0deg-athena-noCT_output.root
+DATE:	2020-03-16 14:41:57.682899
+CONFIG:	  events=241  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+=======
 OUTPUT:	0deg-athena_analysed.root
 INPUT:	0deg-athena_output.root
 DATE:	2020-02-10 19:37:36.315503
@@ -172,6 +220,7 @@ OUTPUT:	0deg-athena_analysed.root
 INPUT:	0deg-athena_output.root
 DATE:	2020-02-12 15:40:23.970339
 CONFIG:	  events=322  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+>>>>>>> 11c734ba9c24f370e5588875d86a923fbb399ada
 -----
 
 OUTPUT:	0deg-290um-0e-noCT_analysed.root
