@@ -467,8 +467,8 @@ legendHeader = "Data points"
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 
-fileNames =  ["0deg-athena_analysed.root","0deg-290um-864e-CT_analysed.root"]
-legendEntries = ["Athena","Allpix"]
+fileNames =  ["0deg-athena-fullCT_analysed.root", "0deg-athena-noCT_analysed.root", "0deg-290um-864e-CT_analysed.root", "test.root"]
+legendEntries = ["Athena fullCT","Athena noCT","Allpix", "AllpixW/AthenaCT"]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "Athena"      
