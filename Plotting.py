@@ -71,6 +71,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     fitForm = "0.5*[0]*TMath::Erfc((x-[1])/(TMath::Sqrt(2)*[2])*(1-0.6*TMath::TanH([3]*(x-[1])/TMath::Sqrt(2)*[2])))"
 
     color = [1,2,4,6,9,9,6,4,2,1]
+    color = [4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     
@@ -352,6 +353,7 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     gStyle.SetOptTitle(0)           #hides title
 
     color = [1,2,4,6,9,9,6,4,2,1]
+    color=[4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     markerSize = 0.6
@@ -438,7 +440,8 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
             clusRef[i].Draw("samePLE")
 
     # Legend
-    legendWidth = 0.9 - 0.013*max([len(max(legendEntries, key=len))+5, len(legendHeader), len(refLegendEntries)+5])
+    legendWidthCoeff = 0.014
+    legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+4, len(legendHeader), len(max(refLegendEntries, key=len))+4])
     legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05-0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
     legend.SetHeader(legendHeader,"C")
