@@ -173,3 +173,9 @@ INPUT:	0deg-athena_output.root
 DATE:	2020-02-12 15:40:23.970339
 CONFIG:	  events=322  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
 -----
+
+OUTPUT:	0deg-290um-0e-noCT_analysed.root
+INPUT:	0deg-290um-0e_output.root
+DATE:	2020-03-16 15:10:34.383729
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
