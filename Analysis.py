@@ -119,7 +119,15 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("rot0deg-EMV_output.root", CT_StS=0.042, CT_StBP=0.01)
 # RunAnalysis("rot0deg-EMZ_output.root", CT_StS=0.0159, CT_StBP=0.01)
 
-# RunAnalysis("0deg-290um-864e_output.root","test.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
+# RunAnalysis("0deg-290um-0e_output.root","0deg-290um-0e-athCT_analysed.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
+# RunAnalysis("y5deg-290um-0e_output.root","y5deg-290um-0e-athCT_analysed.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
+# RunAnalysis("y12deg-290um-0e_output.root","y12deg-290um-0e-athCT_analysed.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
+# RunAnalysis("x23deg-290um-0e_output.root","x23deg-290um-0e-athCT_analysed.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
+
+# RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("a23deg-290um-athena_output.root", "a23deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
 # RunAnalysis("0deg-athena-fullCT_output.root", "0deg-athena-fullCT_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("0deg-athena-noCT_output.root", "0deg-athena-noCT_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-athena-noCT_output.root", "0deg-athena-noCT_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)

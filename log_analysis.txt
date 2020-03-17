@@ -228,3 +228,51 @@ INPUT:	0deg-290um-0e_output.root
 DATE:	2020-03-16 15:10:34.383729
 CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
 -----
+
+OUTPUT:	0deg-290um-0e-athCT_analysed.root
+INPUT:	0deg-290um-0e_output.root
+DATE:	2020-03-17 09:55:56.685472
+CONFIG:	  events=50000  CT_StS=0.07  CT_StBP=0.1  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-0e_analysed.root
+INPUT:	0deg-290um-athena_output.root
+DATE:	2020-03-17 10:05:12.310284
+CONFIG:	  events=12310  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	y5deg-290um-0e-athCT_analysed.root
+INPUT:	y5deg-290um-0e_output.root
+DATE:	2020-03-17 10:09:04.503391
+CONFIG:	  events=50000  CT_StS=0.07  CT_StBP=0.1  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-athena_analysed.root
+INPUT:	0deg-290um-athena_output.root
+DATE:	2020-03-17 10:10:47.960357
+CONFIG:	  events=12310  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	y12deg-290um-0e-athCT_analysed.root
+INPUT:	y12deg-290um-0e_output.root
+DATE:	2020-03-17 10:22:32.034031
+CONFIG:	  events=50000  CT_StS=0.07  CT_StBP=0.1  thrStep=0.1
+-----
+
+OUTPUT:	23deg-290um-athena_analysed.root
+INPUT:	23deg-290um-athena_output.root
+DATE:	2020-03-17 10:27:59.503881
+CONFIG:	  events=6642  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	x23deg-290um-0e-athCT_analysed.root
+INPUT:	x23deg-290um-0e_output.root
+DATE:	2020-03-17 10:33:24.571254
+CONFIG:	  events=50000  CT_StS=0.07  CT_StBP=0.1  thrStep=0.1
+-----
+
+OUTPUT:	a23deg-290um-athena_analysed.root
+INPUT:	a23deg-290um-athena_output.root
+DATE:	2020-03-17 10:43:25.860389
+CONFIG:	  events=237  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----

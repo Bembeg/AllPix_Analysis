@@ -71,7 +71,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     fitForm = "0.5*[0]*TMath::Erfc((x-[1])/(TMath::Sqrt(2)*[2])*(1-0.6*TMath::TanH([3]*(x-[1])/TMath::Sqrt(2)*[2])))"
 
     color = [1,2,4,6,9,9,6,4,2,1]
-    color = [4,2,1]
+    # color = [4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     
@@ -105,7 +105,8 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     if refFileNames != 0 and refLegendEntries == 0:
         print("No reference legend entry passed, assuming from file name.")
         return 1
-    
+
+   
     if refFileNames != 0 and refOption == 0:
         print("No reference option selected (choose \"time\", \"center\") or \"edge\".")    
         return 1   
@@ -125,6 +126,10 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     if len(fileNames) != len(legendEntries):
         print("Number of files and legend entries different.")
         return 1
+    
+    if len(refLegendEntries) == 0:
+        refLegendEntries=[""]
+    
 
     if len(fileNames) == len(refFileNames):
         chi2Mode = "toEach"
@@ -353,7 +358,7 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     gStyle.SetOptTitle(0)           #hides title
 
     color = [1,2,4,6,9,9,6,4,2,1]
-    color=[4,2,1]
+    # color=[4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     markerSize = 0.6
@@ -384,6 +389,9 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     if refFileNames != 0 and refLegendEntries == 0:
         print("No reference legend entry passed, assuming from file name.")
         return 1
+
+    if len(refLegendEntries) == 0:
+        refLegendEntries=[""]
 
     if legendHeader == 0:
         print("No legend header provided.")
@@ -470,11 +478,20 @@ legendHeader = "Data points"
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 
-fileNames =  ["0deg-290um-864e-CT_analysed.root", "0deg-290um-0e-noCT_analysed.root"]
-legendEntries = ["Athena", "Allpix"]
+fileNames =  ["0deg-290um-0e-athCT_analysed.root", "0deg-290um-athena_analysed.root"]
+legendEntries = ["Allpix","Athena"]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "Athena"      
+legendHeader = "Data points:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+fileNames =  ["0deg-290um-0e-athCT_analysed.root", "y5deg-290um-0e-athCT_analysed.root", "y12deg-290um-0e-athCT_analysed.root", "x23deg-290um-0e-athCT_analysed.root", "0deg-290um-athena_analysed.root", "23deg-290um-athena_analysed.root", "a23deg-290um-athena_analysed.root"]
+legendEntries = ["Allpix 0deg","Allpix y5deg", "Allpix y12deg","Allpix x23deg", "Athena 0deg", "Athena 23deg", "Athena a23deg"]
+refFileNames = []
+refLegendEntries = []            
+plotName = "Athena_Rot"      
 legendHeader = "Data points:"                        
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
