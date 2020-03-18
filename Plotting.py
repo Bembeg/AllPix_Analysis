@@ -66,8 +66,8 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         mainPad.cd()
 
     gStyle.SetOptStat(0)            #hides stat table
-    gStyle.SetOptTitle(0)           #hides title
-
+    # gStyle.SetOptTitle(0)           #hides title
+    
     fitForm = "0.5*[0]*TMath::Erfc((x-[1])/(TMath::Sqrt(2)*[2])*(1-0.6*TMath::TanH([3]*(x-[1])/TMath::Sqrt(2)*[2])))"
 
     color = [1,2,4,6,9,9,6,4,2,1]
@@ -165,6 +165,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             effHist[i].SetAxisRange(axisRangeYLow, axisRangeYHigh, "Y")
             effHist[i].SetAxisRange(axisRangeXLow, axisRangeXHigh, "X")
             effHist[i].GetXaxis().SetTitleOffset(1.1)
+            effHist[i].SetTitle("noiseless, CT interstrip 7%, to backplane 10%")
             effHist[i].Draw("X0")            #() for points, ("AXIS") for just the axes
         else:                   
             effHist[i].Draw("X0same")
@@ -468,6 +469,7 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
 # ------------------------------------------------------------------------------
 
 
+
 fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "0deg-290um-864e-CT_analysed.root"]
 legendEntries = ["Sim - 300um", "AUW", "new Sim."]
 refFileNames = ["ref-0deg-testbeam.root"]
@@ -478,8 +480,8 @@ legendHeader = "Data points"
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 
-fileNames =  ["0deg-290um-0e-athCT_analysed.root", "0deg-290um-athena_analysed.root"]
-legendEntries = ["Allpix","Athena"]
+fileNames =  ["0deg-athena_analysed.root", "0deg-290um-0e-fullCT_analysed.root"]
+legendEntries = ["Athena", "Allpix"]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
 plotName = "Athena"      
@@ -493,8 +495,8 @@ refFileNames = []
 refLegendEntries = []            
 plotName = "Athena_Rot"      
 legendHeader = "Data points:"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 
 fileNames =  ["rot0deg-300um-noCT_analysed.root"]

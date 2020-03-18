@@ -24,6 +24,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
         nOfParts = 0
         for event in hitTree:
             if len(list(event.charge)) > 0:
+                print("LEL")
                 nOfParts += 1 
     elif source == "allpix":
         hitTree = rootFile.PixelCharge
@@ -124,10 +125,14 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("y12deg-290um-0e_output.root","y12deg-290um-0e-athCT_analysed.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
 # RunAnalysis("x23deg-290um-0e_output.root","x23deg-290um-0e-athCT_analysed.root", source="allpix", CT_StS=0.07, CT_StBP=0.1)
 
-# RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("a23deg-290um-athena_output.root", "a23deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
 # RunAnalysis("0deg-athena-fullCT_output.root", "0deg-athena-fullCT_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-athena-noCT_output.root", "0deg-athena-noCT_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+
+RunAnalysis("0deg-290um-athena_output.root", "0deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("a5deg-290um-athena_output.root", "a5deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("b5deg-290um-athena_output.root", "b5deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("a12deg-290um-athena_output.root", "a12deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("b12deg-290um-athena_output.root", "b12deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("a23deg-290um-athena_output.root", "a23deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("b23deg-290um-athena_output.root", "b23deg-290um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
