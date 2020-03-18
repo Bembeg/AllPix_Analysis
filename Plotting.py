@@ -66,17 +66,19 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
         mainPad.cd()
 
     gStyle.SetOptStat(0)            #hides stat table
-    # gStyle.SetOptTitle(0)           #hides title
+    gStyle.SetOptTitle(0)           #hides title
     
     fitForm = "0.5*[0]*TMath::Erfc((x-[1])/(TMath::Sqrt(2)*[2])*(1-0.6*TMath::TanH([3]*(x-[1])/TMath::Sqrt(2)*[2])))"
 
     color = [1,2,4,6,9,9,6,4,2,1]
+    color = [1,1,2,2,4,4,6,6]
     # color = [4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
+    lineStyle = [1,2,1,2,1,2,1,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     
-    axisRangeXLow = 0
-    axisRangeXHigh = 6
+    axisRangeXLow = 1
+    axisRangeXHigh = 5
     axisRangeYLow = 0
     axisRangeYHigh = 1.02
 
@@ -165,7 +167,6 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             effHist[i].SetAxisRange(axisRangeYLow, axisRangeYHigh, "Y")
             effHist[i].SetAxisRange(axisRangeXLow, axisRangeXHigh, "X")
             effHist[i].GetXaxis().SetTitleOffset(1.1)
-            effHist[i].SetTitle("noiseless, CT interstrip 7%, to backplane 10%")
             effHist[i].Draw("X0")            #() for points, ("AXIS") for just the axes
         else:                   
             effHist[i].Draw("X0same")
@@ -359,8 +360,10 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     gStyle.SetOptTitle(0)           #hides title
 
     color = [1,2,4,6,9,9,6,4,2,1]
-    # color=[4,2,1]
+    color = [1,1,2,2,4,4,6,6]
+    # color = [4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
+    lineStyle = [1,2,1,2,1,2,1,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     markerSize = 0.6
     textSize = 0.030
@@ -468,103 +471,37 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
 
 # ------------------------------------------------------------------------------
 
-
-
-fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "0deg-290um-864e-CT_analysed.root"]
-legendEntries = ["Sim - 300um", "AUW", "new Sim."]
-refFileNames = ["ref-0deg-testbeam.root"]
-refLegendEntries = ["Test beam data"]            
-plotName = "toOne_div"      
-legendHeader = "Data points"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
-
-
-fileNames =  ["0deg-athena_analysed.root", "0deg-290um-0e-fullCT_analysed.root"]
+fileNames =  ["0deg-290um-athena_analysed.root", "0deg-290um-0e-athCT_analysed.root"]
 legendEntries = ["Athena", "Allpix"]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam data"]            
-plotName = "Athena"      
+plotName = "Athena_0deg"      
 legendHeader = "Data points:"                        
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-fileNames =  ["0deg-290um-0e-athCT_analysed.root", "y5deg-290um-0e-athCT_analysed.root", "y12deg-290um-0e-athCT_analysed.root", "x23deg-290um-0e-athCT_analysed.root", "0deg-290um-athena_analysed.root", "23deg-290um-athena_analysed.root", "a23deg-290um-athena_analysed.root"]
-legendEntries = ["Allpix 0deg","Allpix y5deg", "Allpix y12deg","Allpix x23deg", "Athena 0deg", "Athena 23deg", "Athena a23deg"]
+legendEntries = ["Allpix", "Athena A", "Athena B"]
 refFileNames = []
 refLegendEntries = []            
-plotName = "Athena_Rot"      
 legendHeader = "Data points:"                        
+
+fileNames =  ["y5deg-290um-0e-athCT_analysed.root", "a5deg-290um-athena_analysed.root", "b5deg-290um-athena_analysed.root"]
+plotName = "Athena_5deg"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
+fileNames =  ["y12deg-290um-0e-athCT_analysed.root", "a12deg-290um-athena_analysed.root", "b12deg-290um-athena_analysed.root"]
+plotName = "Athena_12deg"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-fileNames =  ["rot0deg-300um-noCT_analysed.root"]
-legendEntries = ["300um, CT 0 %"]
-refFileNames = ["ref-0deg-testbeam.root"]
-refLegendEntries = ["TB data, CT ?"]            
-plotName = "rot0deg_crosstalk_1"      
-legendHeader = "Crosstalk:"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
+fileNames =  ["x23deg-290um-0e-athCT_analysed.root", "a23deg-290um-athena_analysed.root", "b23deg-290um-athena_analysed.root"]
+plotName = "Athena_23deg"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-
-fileNames =  ["rot0deg-300um-noCT_analysed.root", "rot0deg-300um-CT_analysed.root", "rot0deg-300um-CThigh_analysed.root"]
-legendEntries = ["Simulation", "Sim. + crosstalk", "Sim. + 2x crosstalk"]
-refFileNames = ["ref-0deg-testbeam.root"]
-refLegendEntries = ["Test beam data"]
-plotName = "CT_over"      
-legendHeader = "Crosstalk:"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
-
-
-fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.root", "y12deg-290um-864e-CT_analysed.root"] 
-legendEntries = ["0 deg - Simulation",  "5 deg - Simulation", "12 deg - Simulation"]
-refFileNames =  ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12degy-testbeam.root"]
-refLegendEntries = ["0 deg - Test beam", "5 deg - Test beam", "12 deg - Test beam"]    
-plotName = "toEach_div"
-legendHeader = "Sensor rotation (y-axis):"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", plotRatio=1)
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
-
-
-fileNames = ["0deg-290um-864e-CT_analysed.root", "x23deg-290um-864e-CT_analysed.root"]
-legendEntries = ["0 deg - Simulation",  "23 deg - Simulation"]
-refFileNames =  ["ref-0deg-testbeam.root", "ref-23degx-testbeam.root"]
-refLegendEntries = ["0 deg - Test beam", "23 deg - Test beam"]    
-plotName = "rotXaxis"
-legendHeader = "Sensor rotation (x-axis):"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
-
-
-fileNames =  ["roty12deg-300um-noCT_analysed.root", "roty12deg-300um-CT_analysed.root"]
-legendEntries = ["Simulation", "Sim. + crosstalk"]
-refFileNames = ["ref-12degy-testbeam.root"]
-refLegendEntries = ["Test beam data"]            
-plotName = "roty12deg_crosstalk"      
-legendHeader = "Crosstalk:"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
-
-
-fileNames =  ["rotx23deg-300um-noCT_analysed.root", "rotx23deg-300um-CT_analysed.root"]
-legendEntries = ["Simulation", "Sim. + crosstalk"]
-refFileNames = ["ref-23degx-testbeam.root"]
-refLegendEntries = ["Test beam data"]            
-plotName = "rotx23deg_crosstalk"      
-legendHeader = "Crosstalk:"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
-
-
-fileNames =  ["y5deg-290um-864e-CT_analysed.root"]
-legendEntries = ["Simulation"]
-refFileNames = ["ref-12degy-testbeam.root"]
-refLegendEntries = ["Testbeam"]
-plotName = "chi_testing_1"      
-legendHeader = "Data points:"                        
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, refOption="time", axisTitleX="Threshold [fC]", axisTitleY="Efficiency")
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, axisTitleX="Threshold [fC]", axisTitleY="Average cluster size")
-
+fileNames = ["0deg-290um-0e-athCT_analysed.root", "0deg-290um-athena_analysed.root", "y5deg-290um-0e-athCT_analysed.root", "a5deg-290um-athena_analysed.root", "y12deg-290um-0e-athCT_analysed.root", "a12deg-290um-athena_analysed.root", "x23deg-290um-0e-athCT_analysed.root", "b23deg-290um-athena_analysed.root"]
+legendEntries = ["0deg Allpix", "0deg Athena", "y5deg Allpix", "y5deg Athena", "y12deg Allpix", "y12deg Athena", "x23deg Allpix", "x23deg Athena"]
+plotName = "Athena_complete"
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)

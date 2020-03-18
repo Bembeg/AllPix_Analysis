@@ -24,7 +24,6 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
         nOfParts = 0
         for event in hitTree:
             if len(list(event.charge)) > 0:
-                print("LEL")
                 nOfParts += 1 
     elif source == "allpix":
         hitTree = rootFile.PixelCharge
