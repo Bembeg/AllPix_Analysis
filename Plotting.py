@@ -45,7 +45,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     Pass a list of root files to have the efficiency plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
     """
 
-    canvas = TCanvas("c1", "c1", 500,500)
+    canvas = TCanvas("c1", "c1", 600,600)
     
     if plotRatio == 1: 
         mainPadYlow = 0.275
@@ -71,20 +71,20 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     fitForm = "0.5*[0]*TMath::Erfc((x-[1])/(TMath::Sqrt(2)*[2])*(1-0.6*TMath::TanH([3]*(x-[1])/TMath::Sqrt(2)*[2])))"
 
     color = [1,2,4,6,9,9,6,4,2,1]
-    color = [1,1,2,2,4,4,6,6]
+    # color = [1,1,2,2,4,4,6,6]
     # color = [4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
-    lineStyle = [1,2,1,2,1,2,1,2]
+    # lineStyle = [1,2,1,2,1,2,1,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     
-    axisRangeXLow = 1
-    axisRangeXHigh = 5
+    axisRangeXLow = 0
+    axisRangeXHigh = 6
     axisRangeYLow = 0
     axisRangeYHigh = 1.02
 
-    doChi2 = 0
+    doChi2 = 1
 
-    markerSize = 0.6
+    markerSize = 0.8
     textSize = 0.030
     effHist = []
     effTitle = []
@@ -213,7 +213,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
             effRefPoints[i].SetLineColor(color[-i-1])
             effRefPoints[i].SetLineStyle(lineStyle[-i-1])
             effRefPoints[i].SetLineWidth(2)
-            effRefPoints[i].Draw("PE0same")
+            effRefPoints[i].Draw("PEX0same")
             effRefFunc[i].SetLineColor(color[-i-1])
             effRefFunc[i].SetLineStyle(lineStyle[-i-1])
             effRefFunc[i].Draw("Lsame")
@@ -225,7 +225,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
                 interpLines.append([])
                 
                 if plotRatio == 1:
-                    effRatio.append(TGraph(effRefPoints[i].GetN()))
+                    effRatio.append(TGraphErrors(effRefPoints[i].GetN()))
 
                 for j in range(effRefPoints[i].GetN()):
                     (x, y, ey) = (effRefPoints[i].GetX()[j], effRefPoints[i].GetY()[j], effRefPoints[i].GetEY()[j])      
@@ -264,7 +264,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     if plotRatio == 1: legendWidthCoeff = 0.011
     else: legendWidthCoeff = 0.014
     legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+4, len(legendHeader), len(max(refLegendEntries, key=len))+4])
-    legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05#-0.05
+    legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05#0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
     # legend.SetHeader(legendHeader,"C")
     legend.SetTextSize(textSize)
@@ -327,9 +327,9 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
                 effRatio[i].GetXaxis().SetLabelSize(textSize*mainToRatio)
                 effRatio[i].GetXaxis().SetTickSize(0.08)
                 effRatio[i].GetXaxis().SetLabelOffset(0.02)
-                effRatio[i].Draw("ALPE")
+                effRatio[i].Draw("PLE")
             else:
-                effRatio[i].Draw("sameLPE")
+                effRatio[i].Draw("samePLE")
         oneLine = TLine(axisRangeXLow+0.1, axisCenter, axisRangeXHigh+0.04, axisCenter)
         oneLine.SetLineColor(13)
         oneLine.Draw("same")   
@@ -355,17 +355,17 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     """
     Pass a list of root files to have the cluster size plotted along with preferred legend entries for these plots (if not provided, they will be assumed from the file names). Reference root file (eg. with testbeam data) can be also passed along with the appropriate legend entry (or else assumed from the file name) and will be plotted as well.
     """
-    canvas = TCanvas("c1", "c1", 600,600)
+    canvas = TCanvas("c1", "c1", 800,600)
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)           #hides title
 
     color = [1,2,4,6,9,9,6,4,2,1]
-    color = [1,1,2,2,4,4,6,6]
+    # color = [1,1,2,2,4,4,6,6]
     # color = [4,2,1]
     lineStyle = [2,2,2,2,2,1,1,1,1,1]   
-    lineStyle = [1,2,1,2,1,2,1,2]
+    # lineStyle = [1,2,1,2,1,2,1,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
-    markerSize = 0.6
+    markerSize = 0.8
     textSize = 0.030
 
     axisRangeXLow = 0
@@ -454,9 +454,9 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     # Legend
     legendWidthCoeff = 0.014
     legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+4, len(legendHeader), len(max(refLegendEntries, key=len))+4])
-    legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05-0.05
+    legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05#-0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
-    legend.SetHeader(legendHeader,"C")
+    # legend.SetHeader(legendHeader,"C")
     legend.SetTextSize(textSize)
     for i in range(len(fileNames)):
         if refFileNames !=0 and i <= len(refFileNames) - 1:
@@ -511,38 +511,40 @@ plotName = "Athena_complete"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
+# Chi=0
 # Allpix steps
-fileNames = ["0deg-300um-step0.1_analysed.root", "0deg-300um_analysed.root", "0deg-300um-step5_analysed.root"]
-legendEntries = ["0.1 um", "1 um", "5 um"]
-legendHeader = "Max_step_length value"
-plotName = "Allpix_stepLength"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# fileNames = ["0deg-300um-step0.1_analysed.root", "0deg-300um_analysed.root", "0deg-300um-step5_analysed.root"]
+# legendEntries = ["0.1 um", "1 um", "5 um"]
+# legendHeader = "Max_step_length value"
+# plotName = "Allpix_stepLength"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# Allpix Physics lists
-fileNames = ["0deg-300um-FTFPBERT_analysed.root", "0deg-300um-QGSPBERT_analysed.root", "0deg-300um_analysed.root", "0deg-300um-FTFPBERTPEN_analysed.root", "0deg-300um-FTFPBERTEMV_analysed.root", "0deg-300um-FTFPBERTEMZ_analysed.root"]
-legendEntries = ["FTFP_BERT", "QGSP_BERT", "FTFP_BERT_LIV", "FTFP_BERT_PEN", "FTFP_BERT_EMV", "FTFP_BERT_EMZ"]
-legendHeader = "Physics list"
-plotName = "Allpix_physicsList"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# # Allpix Physics lists
+# fileNames = ["0deg-300um-FTFPBERT_analysed.root", "0deg-300um-QGSPBERT_analysed.root", "0deg-300um_analysed.root", "0deg-300um-FTFPBERTPEN_analysed.root", "0deg-300um-FTFPBERTEMV_analysed.root", "0deg-300um-FTFPBERTEMZ_analysed.root"]
+# legendEntries = ["FTFP_BERT", "QGSP_BERT", "FTFP_BERT_LIV", "FTFP_BERT_PEN", "FTFP_BERT_EMV", "FTFP_BERT_EMZ"]
+# legendHeader = "Physics list"
+# plotName = "Allpix_physicsList"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# Allpix PAI model
-fileNames = ["0deg-300um_analysed.root", "0deg-300um-noPAI_analysed.root"] 
-legendEntries = ["Enabled", "Disabled"]
-legendHeader = "PAI model"
-plotName = "Allpix_PAImodel"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# # Allpix PAI model
+# fileNames = ["0deg-300um_analysed.root", "0deg-300um-noPAI_analysed.root"] 
+# legendEntries = ["Enabled", "Disabled"]
+# legendHeader = "PAI model"
+# plotName = "Allpix_PAImodel"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# Allpix Charge per step
-fileNames = ["0deg-300um-chPerStep10_analysed.root", "0deg-300um_analysed.root", "0deg-300um-chPerStep100_analysed.root"] 
-legendEntries = ["10", "50", "100"]
-legendHeader = "Charge_per_step value"
-plotName = "Allpix_chPerStep"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# # Allpix Charge per step
+# fileNames = ["0deg-300um-chPerStep10_analysed.root", "0deg-300um_analysed.root", "0deg-300um-chPerStep100_analysed.root"] 
+# legendEntries = ["10", "50", "100"]
+# legendHeader = "Charge_per_step value"
+# plotName = "Allpix_chPerStep"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
+#Chi = 1
 # Allpix thicknesses
 fileNames = ["0deg-270um_analysed.root", "0deg-280um_analysed.root", "0deg-290um_analysed.root", "0deg-300um_analysed.root", "0deg-310um_analysed.root"] 
 legendEntries = ["270 um", "280 um", "290 um", "300 um", "310 um"]
@@ -550,5 +552,44 @@ refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam"]
 legendHeader = "Sensor thickness"
 plotName = "Allpix_thickness"
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# Allpix crosstalk
+fileNames = ["0deg-290um-ctH_analysed.root", "0deg-290um_analysed.root"]
+legendEntries = ["Allpix, cross talk", "Allpix, no cross talk"]
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam"]
+# legendHeader = "Cross talk"
+plotName = "Allpix_crosstalk"
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# Allpix original to testbeam
+fileNames = ["0deg-300um_analysed.root"]
+legendEntries = ["Allpix"]
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam"]
+plotName = "Allpix_original" 
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=1)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# Final rot Y
+fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.root", "y12deg-290um-864e-CT_analysed.root"]
+legendEntries = ["0#circ - Allpix", "5#circ - Allpix", "12#circ - Allpix"]
+refFileNames = ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12degy-testbeam.root"]
+refLegendEntries = ["0#circ - Test beam", "5#circ - Test beam", "12#circ - Test beam"]
+legendHeader = "Incidence angle"
+plotName = "Allpix_rotY"
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# Final rot X
+fileNames = ["0deg-290um-864e-CT_analysed.root", "x23deg-290um-864e-CT_analysed.root"]
+legendEntries = ["0#circ - Allpix", "23#circ - Allpix"]
+refFileNames = ["ref-0deg-testbeam.root", "ref-23degx-testbeam.root"]
+refLegendEntries = ["0#circ - Test beam", "23#circ - Test beam"]
+legendHeader = "Incidence angle"
+plotName = "Allpix_rotX"
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
