@@ -90,10 +90,10 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # Cc = 20, Cb = 0.45, Ci = 0.8
 # CT_StS = 1,88%, CT_StBP = 2,11%
 
-RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
-RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
-RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
-RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
+# RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
 
 # RunAnalysis("rot0deg-300um_output.root","rot0deg-300um-noCT_analysed.root", CT_StS=0.00, CT_StBP=0.00)
 # RunAnalysis("rot0deg-300um_output.root","rot0deg-300um-CT_analysed.root", CT_StS=0.042, CT_StBP=0.012)
@@ -145,11 +145,12 @@ RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root
 # RunAnalysis("0deg-300um-noPAI_output.root", "0deg-300um-noPAI_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-300um-chPerStep10_output.root", "0deg-300um-chPerStep10_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-300um-chPerStep100_output.root", "0deg-300um-chPerStep100_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-270um_output.root", "0deg-270um_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-280um_output.root", "0deg-280um_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-290um_output.root", "0deg-290um_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-300um_output.root", "0deg-300um_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-310um_output.root", "0deg-310um_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-270um_output.root", "0deg-270um-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0212)
+RunAnalysis("0deg-280um_output.root", "0deg-280um-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0212)
+RunAnalysis("0deg-290um_output.root", "0deg-290um-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0212)
+# RunAnalysis("0deg-300um_output.root", "0deg-300um-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0212)
+RunAnalysis("0deg-310um_output.root", "0deg-310um-CT_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0212)
 
 # RunAnalysis("0deg-290um_output.root", "0deg-290um-ctL_analysed.root", source="allpix", CT_StS=0.0158, CT_StBP=0.0178)
 # RunAnalysis("0deg-290um_output.root", "0deg-290um-ctH_analysed.root", source="allpix", CT_StS=0.0188, CT_StBP=0.0211)
+

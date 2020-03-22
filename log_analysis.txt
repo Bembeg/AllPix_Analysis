@@ -256,3 +256,33 @@ INPUT:	x23deg-290um-864e_output.root
 DATE:	2020-03-20 11:50:06.397919
 CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0211  thrStep=0.1
 -----
+
+OUTPUT:	0deg-300um-CT_analysed.root
+INPUT:	0deg-300um_output.root
+DATE:	2020-03-21 13:11:19.018096
+CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0212  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-CT_analysed.root
+INPUT:	0deg-270um_output.root
+DATE:	2020-03-21 13:41:22.618407
+CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0212  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-CT_analysed.root
+INPUT:	0deg-280um_output.root
+DATE:	2020-03-21 13:50:48.164725
+CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0212  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-CT_analysed.root
+INPUT:	0deg-290um_output.root
+DATE:	2020-03-21 14:00:02.326483
+CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0212  thrStep=0.1
+-----
+
+OUTPUT:	0deg-310um-CT_analysed.root
+INPUT:	0deg-310um_output.root
+DATE:	2020-03-21 14:09:36.906979
+CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0212  thrStep=0.1
+-----
