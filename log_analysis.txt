@@ -220,3 +220,33 @@ INPUT:	0deg-310um_output.root
 DATE:	2020-03-20 01:28:24.547271
 CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
 -----
+
+OUTPUT:	0deg-290um-athena-cuts_analysed.root
+INPUT:	0deg-290um-athena-cuts_output.root
+DATE:	2020-03-25 12:14:09.610384
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-athena-cut10_analysed.root
+INPUT:	0deg-290um-athena-cut10_output.root
+DATE:	2020-03-25 19:38:36.399879
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-athena-cut1_analysed.root
+INPUT:	0deg-290um-athena-cut1_output.root
+DATE:	2020-03-25 19:39:04.804461
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test_analysed.root
+INPUT:	test_output.root
+DATE:	2020-03-26 12:37:50.759661
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test_analysed.root
+INPUT:	test_output.root
+DATE:	2020-03-26 12:48:23.316108
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
