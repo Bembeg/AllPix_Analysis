@@ -286,3 +286,39 @@ INPUT:	0deg-310um_output.root
 DATE:	2020-03-21 14:09:36.906979
 CONFIG:	  events=50000  CT_StS=0.0188  CT_StBP=0.0212  thrStep=0.1
 -----
+
+OUTPUT:	test-270um_analysed.root
+INPUT:	test-270um_output.root
+DATE:	2020-04-01 10:49:56.649169
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test-280um_analysed.root
+INPUT:	test-280um_output.root
+DATE:	2020-04-01 10:55:43.135367
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test-290um_analysed.root
+INPUT:	test-290um_output.root
+DATE:	2020-04-01 11:02:35.111628
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test-300um_analysed.root
+INPUT:	test-300um_output.root
+DATE:	2020-04-01 11:18:04.058642
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test-310um_analysed.root
+INPUT:	test-310um_output.root
+DATE:	2020-04-01 11:33:24.234120
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	test-310um_analysed.root
+INPUT:	test-310um_output.root
+DATE:	2020-04-01 11:33:49.483284
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
