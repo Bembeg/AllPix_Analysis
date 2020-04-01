@@ -471,45 +471,94 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     # Print and save
     canvas.SaveAs("results/" + plotName + "_clus.pdf")
 
-def MedianChargeGraph():
+def MedianCharges():
     canvas = TCanvas("c1", "c1", 800,600)
     
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)     
 
-    medianCharges = [3.435, 3.564, 3.693, 3.821, 3.961]
     thick = [270, 280, 290, 300, 310]
-    errors = [0.002, 0.002, 0.002, 0.002, 0.002]
-
-    nOfPoints = len(medianCharges)
-    chargeGraph = TGraphErrors(nOfPoints)
-    for i in range(len(medianCharges)):
-        chargeGraph.SetPoint(i,thick[i], medianCharges[i])
-        chargeGraph.SetPointError(i,0, errors[i])
-    chargeGraph.SetMarkerSize(1)
-    chargeGraph.SetMarkerColor(2)
-    chargeGraph.SetMarkerStyle(21)
-    # chargeGraph.SetLineColor(2)
-    chargeGraph.GetXaxis().SetTitle("Active sensor thickness [#mum]")
-    chargeGraph.GetYaxis().SetTitle("Median charge [fC]")
-    chargeGraph.GetHistogram().SetMaximum(4.2)
-    chargeGraph.GetHistogram().SetMinimum(3.3)
-
-    chargeGraph.Draw("APX")
     
-    chargeFitFunc = TF1("fitFunc", "[0]*x+[1]", 270, 310)
-    chargeFitFunc.SetLineStyle(2)
-    chargeFitFunc.SetLineColor(1)
-    chargeGraph.Fit("fitFunc")
+    #Allpix with CT
+    chargesAllpix1 = [3.435, 3.564, 3.693, 3.821, 3.961]
+    errorsAllpix1 = [0.002, 0.002, 0.002, 0.002, 0.002]
+
+    #Allpix no CT
+    chargesAllpix2 = [3.6479, 3.7848, 3.9223, 4.058, 4.206]
+    errorsAllpix2 = errorsAllpix1
+
+    #Athena
+    chargesAthena = [2.9257, 2.9877, 3.042, 3.093, 3.141]
+    errorsAthena = [0.007, 0.007, 0.007, 0.007, 0.007]
+
+    nOfPoints = len(thick)
+    graphAllpix1 = TGraphErrors(nOfPoints)
+    graphAllpix2 = TGraphErrors(nOfPoints)
+    graphAthena = TGraphErrors(nOfPoints)
+    
+    for i in range(nOfPoints):
+        graphAllpix1.SetPoint(i, thick[i], chargesAllpix1[i])
+        graphAllpix1.SetPointError(i,0,errorsAllpix1[i])
+        graphAllpix2.SetPoint(i, thick[i], chargesAllpix2[i])
+        graphAllpix2.SetPointError(i,0,errorsAllpix2[i])
+        graphAthena.SetPoint(i, thick[i], chargesAthena[i])
+        graphAthena.SetPointError(i,0,errorsAthena[i])
+
+
+    graphAllpix1.SetMarkerSize(1)
+    graphAllpix1.SetMarkerColor(2)
+    graphAllpix1.SetMarkerStyle(21)
+    # graphAllpix1.SetLineColor(2)
+    graphAllpix1.GetXaxis().SetTitle("Active sensor thickness [#mum]")
+    graphAllpix1.GetYaxis().SetTitle("Median charge [fC]")
+    graphAllpix1.GetHistogram().SetMaximum(4.4)
+    graphAllpix1.GetHistogram().SetMinimum(0)
+    graphAllpix1.GetXaxis().SetLimits(0,320)
+    graphAllpix2.GetXaxis().SetLimits(0,330)
+    graphAthena.GetXaxis().SetLimits(0,330)
+
+    graphAllpix2.SetMarkerSize(1)
+    graphAllpix2.SetMarkerColor(4)
+    graphAllpix2.SetMarkerStyle(21)
+
+    graphAthena.SetMarkerSize(1)
+    graphAthena.SetMarkerColor(1)
+    graphAthena.SetMarkerStyle(21)
+    
+
+    graphAllpix1.Draw("APX")
+    graphAllpix2.Draw("samePX")
+    graphAthena.Draw("samePX")
+
+    graphAllpix1Func = TF1("graphAllpix1Func", "[0]*x+[1]", 0, 310)
+    graphAllpix2Func = TF1("graphAllpix2Func", "[0]*x+[1]", 0, 310)
+    graphAthenaFunc = TF1("graphAthenaFunc", "[0]*x+[1]", 0, 310)
+    
+    graphAllpix1Func.SetLineStyle(2)
+    graphAllpix1Func.SetLineColor(2)
+    graphAllpix2Func.SetLineStyle(2)
+    graphAllpix2Func.SetLineColor(4)
+    graphAthenaFunc.SetLineStyle(2)
+    graphAthenaFunc.SetLineColor(1)
+    
+    graphAllpix1.Fit("graphAllpix1Func")
+    graphAllpix2.Fit("graphAllpix2Func")
+    graphAthena.Fit("graphAthenaFunc")
 
     # textSize = 
-    legend = TLegend(0.75, 0.75, 0.9, 0.9)
+    legend = TLegend(0.13, 0.63, 0.33, 0.88)
+    legend.SetBorderSize(0)
     # legend.SetTextSize(textSize)
-    legend.AddEntry(chargeGraph, "Data points", "p")
-    legend.AddEntry(chargeFitFunc, "Linear fit", "l")
+    legend.AddEntry(graphAllpix2, "Allpix, no crosstalk", "p")
+    legend.AddEntry(graphAllpix2Func, "Linear fit", "l")
+    legend.AddEntry(graphAllpix1, "Allpix, crosstalk", "p")
+    legend.AddEntry(graphAllpix1Func, "Linear fit", "l")
+    legend.AddEntry(graphAthena, "Athena", "p")
+    legend.AddEntry(graphAthenaFunc, "Linear fit", "l")
+
     legend.Draw("same")
 
-    canvas.SaveAs("results/Allpix_thicknessGraph.pdf")
+    canvas.SaveAs("results/test_thicknessGraphFull.pdf")
     
 
 # ------------------------------------------------------------------------------
@@ -637,49 +686,49 @@ plotName = "Athena_complete"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# MedianChargeGraph()
+MedianCharges()
 
 # Athena thickness testing
 refFileNames = []
 refLegendEntries = []   
 
 # no CT
-fileNames =  ["test-270um_analysed.root", "0deg-270um_analysed.root"]
-legendEntries = ["Athena", "Allpix"]          
-plotName = "test-270um"      
-legendHeader = "Data points:"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# fileNames =  ["test-270um_analysed.root", "0deg-270um_analysed.root"]
+# legendEntries = ["Athena", "Allpix"]          
+# plotName = "test-270um"      
+# legendHeader = "Data points:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-fileNames =  ["test-280um_analysed.root", "0deg-280um_analysed.root"]
-legendEntries = ["Athena", "Allpix"]            
-plotName = "test-280um"      
-legendHeader = "Data points:"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# fileNames =  ["test-280um_analysed.root", "0deg-280um_analysed.root"]
+# legendEntries = ["Athena", "Allpix"]            
+# plotName = "test-280um"      
+# legendHeader = "Data points:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-fileNames =  ["test-290um_analysed.root", "0deg-290um_analysed.root"]
-legendEntries = ["Athena", "Allpix"]            
-plotName = "test-290um"      
-legendHeader = "Data points:"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# fileNames =  ["test-290um_analysed.root", "0deg-290um_analysed.root"]
+# legendEntries = ["Athena", "Allpix"]            
+# plotName = "test-290um"      
+# legendHeader = "Data points:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-fileNames =  ["test-300um_analysed.root", "0deg-300um_analysed.root"]
-legendEntries = ["Athena", "Allpix"]          
-plotName = "test-300um"      
-legendHeader = "Data points:"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# fileNames =  ["test-300um_analysed.root", "0deg-300um_analysed.root"]
+# legendEntries = ["Athena", "Allpix"]          
+# plotName = "test-300um"      
+# legendHeader = "Data points:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-fileNames =  ["test-310um_analysed.root", "0deg-310um_analysed.root"]
-legendEntries = ["Athena", "Allpix"]          
-plotName = "test-310um"      
-legendHeader = "Data points:"                        
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# fileNames =  ["test-310um_analysed.root", "0deg-310um_analysed.root"]
+# legendEntries = ["Athena", "Allpix"]          
+# plotName = "test-310um"      
+# legendHeader = "Data points:"                        
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# CT on
+# # CT on
 # fileNames =  ["test-270um_analysed.root", "0deg-270um-CT_analysed.root"]
 # legendEntries = ["Athena", "Allpix"]          
 # plotName = "test-270um-CT"      
