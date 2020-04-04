@@ -477,21 +477,21 @@ def MedianCharges():
     gStyle.SetOptStat(0)            #hides stat table
     gStyle.SetOptTitle(0)     
 
-    thick = [270, 280, 290, 300, 310]
+    thick = [25, 50, 100, 150, 200, 250, 270, 280, 290, 300, 310]
+    nOfPoints = len(thick)
     
     #Allpix with CT
-    chargesAllpix1 = [3.435, 3.564, 3.693, 3.821, 3.961]
-    errorsAllpix1 = [0.002, 0.002, 0.002, 0.002, 0.002]
+    chargesAllpix1 = [0.222, 0.459, 1.185, 1.847, 2.497, 3.163, 3.435, 3.564, 3.693, 3.821, 3.961]
+    errorsAllpix1 = [0.064] + [0.002] * (nOfPoints-1)
 
     #Allpix no CT
-    chargesAllpix2 = [3.6479, 3.7848, 3.9223, 4.058, 4.206]
-    errorsAllpix2 = errorsAllpix1
+    chargesAllpix2 = [0.225, 0.504, 1.266, 1.961, 2.654, 3.361, 3.6479, 3.7848, 3.9223, 4.058, 4.206]
+    errorsAllpix2 = [0.057] + [0.002] * (nOfPoints-1)
 
     #Athena
-    chargesAthena = [2.9257, 2.9877, 3.042, 3.093, 3.141]
-    errorsAthena = [0.007, 0.007, 0.007, 0.007, 0.007]
+    chargesAthena = [0.35, 0.731, 1.364, 1.949, 2.425, 2.809, 2.9257, 2.9877, 3.042, 3.093, 3.141]
+    errorsAthena = [0.079, 0.001, 0.002, 0.002, 0.003, 0.003, 0.007, 0.007, 0.007, 0.007, 0.007]
 
-    nOfPoints = len(thick)
     graphAllpix1 = TGraphErrors(nOfPoints)
     graphAllpix2 = TGraphErrors(nOfPoints)
     graphAthena = TGraphErrors(nOfPoints)
@@ -508,12 +508,11 @@ def MedianCharges():
     graphAllpix1.SetMarkerSize(1)
     graphAllpix1.SetMarkerColor(2)
     graphAllpix1.SetMarkerStyle(21)
-    # graphAllpix1.SetLineColor(2)
     graphAllpix1.GetXaxis().SetTitle("Active sensor thickness [#mum]")
     graphAllpix1.GetYaxis().SetTitle("Median charge [fC]")
     graphAllpix1.GetHistogram().SetMaximum(4.4)
-    graphAllpix1.GetHistogram().SetMinimum(0)
-    graphAllpix1.GetXaxis().SetLimits(0,320)
+    graphAllpix1.GetHistogram().SetMinimum(2.8)
+    graphAllpix1.GetXaxis().SetLimits(270,320)
     graphAllpix2.GetXaxis().SetLimits(0,330)
     graphAthena.GetXaxis().SetLimits(0,330)
 
@@ -526,14 +525,15 @@ def MedianCharges():
     graphAthena.SetMarkerStyle(21)
     
 
-    graphAllpix1.Draw("APX")
-    graphAllpix2.Draw("samePX")
-    graphAthena.Draw("samePX")
+    graphAllpix1.Draw("AP")
+    graphAllpix2.Draw("sameP")
+    graphAthena.Draw("sameP")
 
     graphAllpix1Func = TF1("graphAllpix1Func", "[0]*x+[1]", 0, 310)
     graphAllpix2Func = TF1("graphAllpix2Func", "[0]*x+[1]", 0, 310)
-    graphAthenaFunc = TF1("graphAthenaFunc", "[0]*x+[1]", 0, 310)
-    
+    # graphAthenaFunc = TF1("graphAthenaFunc", "[0]*x+[1]", 0, 310)
+    graphAthenaFunc = TF1("graphAthenaFunc","[0]*x**2+[1]*x+[2]",0, 310)
+        
     graphAllpix1Func.SetLineStyle(2)
     graphAllpix1Func.SetLineColor(2)
     graphAllpix2Func.SetLineStyle(2)
@@ -544,6 +544,7 @@ def MedianCharges():
     graphAllpix1.Fit("graphAllpix1Func")
     graphAllpix2.Fit("graphAllpix2Func")
     graphAthena.Fit("graphAthenaFunc")
+    
 
     # textSize = 
     legend = TLegend(0.13, 0.63, 0.33, 0.88)
@@ -554,11 +555,11 @@ def MedianCharges():
     legend.AddEntry(graphAllpix1, "Allpix, crosstalk", "p")
     legend.AddEntry(graphAllpix1Func, "Linear fit", "l")
     legend.AddEntry(graphAthena, "Athena", "p")
-    legend.AddEntry(graphAthenaFunc, "Linear fit", "l")
+    legend.AddEntry(graphAthenaFunc, "Quadratic fit", "l")
 
     legend.Draw("same")
 
-    canvas.SaveAs("results/test_thicknessGraphFull.pdf")
+    canvas.SaveAs("results/test2_thicknessGraph.pdf")
     
 
 # ------------------------------------------------------------------------------
@@ -686,8 +687,6 @@ plotName = "Athena_complete"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-MedianCharges()
-
 # Athena thickness testing
 refFileNames = []
 refLegendEntries = []   
@@ -763,3 +762,26 @@ refLegendEntries = []
 # legendHeader = "Data points:"                        
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# # Allpix no CT low thickness
+# fileNames = ["0deg-25um-864e_analysed.root", "0deg-50um-864e_analysed.root", "0deg-100um-864e_analysed.root", "0deg-150um-864e_analysed.root", "0deg-200um-864e_analysed.root", "0deg-250um-864e_analysed.root"]
+# legendEntries = ["25um","50um","100um","150um","200um","250um"]
+# plotName = "Allpix_lowThick"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# # Allpix with CT low thickness
+# fileNames = ["0deg-25um-864e-CT_analysed.root", "0deg-50um-864e-CT_analysed.root", "0deg-100um-864e-CT_analysed.root", "0deg-150um-864e-CT_analysed.root", "0deg-200um-864e-CT_analysed.root", "0deg-250um-864e-CT_analysed.root"]
+# legendEntries = ["25um","50um","100um","150um","200um","250um"]
+# plotName = "Allpix_lowThick-CT"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+# # Athena low thickness
+# fileNames = ["0deg-athena-25um_analysed.root", "0deg-athena-50um_analysed.root", "0deg-athena-100um_analysed.root", "0deg-athena-150um_analysed.root", "0deg-athena-200um_analysed.root", "0deg-athena-250um_analysed.root"]
+# legendEntries = ["25um","50um","100um","150um","200um","250um"]
+# plotName = "Athena_lowThick"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
+MedianCharges()
