@@ -784,11 +784,4 @@ refLegendEntries = []
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-#Athena CompMode3 testing
-fileNames = ["0deg-320um-athena-noNoise_analysed.root","0deg-320um-athena-Noise_analysed.root", "0deg-320um-athena-noCT_analysed.root"]
-legendEntries = ["no noise", "noise", "no CT"]
-plotName = "Athena_compMode3"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
-
-# MedianCharges()
+MedianCharges()
