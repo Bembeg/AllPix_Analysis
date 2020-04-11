@@ -90,27 +90,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # Cc = 20, Cb = 0.45, Ci = 0.8
 # CT_StS = 1,88%, CT_StBP = 2,11%
 
-RunAnalysis("0deg-10um-864e_output.root", "0deg-10um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-25um-864e_output.root", "0deg-25um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-50um-864e_output.root", "0deg-50um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-100um-864e_output.root", "0deg-100um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-150um-864e_output.root", "0deg-150um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-200um-864e_output.root", "0deg-200um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-250um-864e_output.root", "0deg-250um-864e_analysed.root", source="allpix", CT_StBP=0, CT_StS=0)
-
-RunAnalysis("0deg-10um-864e_output.root", "0deg-10um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-RunAnalysis("0deg-25um-864e_output.root", "0deg-25um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-RunAnalysis("0deg-50um-864e_output.root", "0deg-50um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-RunAnalysis("0deg-100um-864e_output.root", "0deg-100um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-RunAnalysis("0deg-150um-864e_output.root", "0deg-150um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-RunAnalysis("0deg-200um-864e_output.root", "0deg-200um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-RunAnalysis("0deg-250um-864e_output.root", "0deg-250um-864e-CT_analysed.root", source="allpix", CT_StBP=0.0211, CT_StS=0.0188)
-
-RunAnalysis("0deg-athena-10um_output.root", "0deg-athena-10um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-athena-25um_output.root", "0deg-athena-25um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-athena-50um_output.root", "0deg-athena-50um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-athena-100um_output.root", "0deg-athena-100um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-athena-150um_output.root", "0deg-athena-150um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-athena-200um_output.root", "0deg-athena-200um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-RunAnalysis("0deg-athena-250um_output.root", "0deg-athena-250um_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
-
+# RunAnalysis("0deg-320um-athena-noNoise_output.root", "0deg-320um-athena-noNoise_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
+# RunAnalysis("0deg-320um-athena-Noise_output.root", "0deg-320um-athena-Noise_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
+# RunAnalysis("0deg-320um-athena-noCT_output.root", "0deg-320um-athena-noCT_analysed.root", source="athena", CT_StBP=0, CT_StS=0)
+RunAnalysis("0deg-320um-athena-overCT_output.root", "0deg-320um-athena-overCT_analysed.root", source="athena", CT_StBP=0, CT_StS=0)

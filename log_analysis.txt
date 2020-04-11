@@ -448,3 +448,21 @@ INPUT:	0deg-athena-250um_output.root
 DATE:	2020-04-04 12:31:09.309311
 CONFIG:	  events=33406  CT_StS=0  CT_StBP=0  thrStep=0.1
 -----
+
+OUTPUT:	0deg-320um-athena-noNoise_analysed.root
+INPUT:	0deg-320um-athena-noNoise_output.root
+DATE:	2020-04-05 15:08:47.920428
+CONFIG:	  events=3422  CT_StS=0  CT_StBP=0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-320um-athena-Noise_analysed.root
+INPUT:	0deg-320um-athena-Noise_output.root
+DATE:	2020-04-05 15:10:17.389957
+CONFIG:	  events=3422  CT_StS=0  CT_StBP=0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-320um-athena-noCT_analysed.root
+INPUT:	0deg-320um-athena-noCT_output.root
+DATE:	2020-04-05 15:10:40.541692
+CONFIG:	  events=3422  CT_StS=0  CT_StBP=0  thrStep=0.1
+-----
