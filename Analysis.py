@@ -93,18 +93,18 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("0deg-280um-mercedesEF_output.root", "0deg-280um-mercedesEF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-280um-linearEF_output.root", "0deg-280um-linearEF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 
-# RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("y5deg-290um-864e_output.root", "y5deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("y12deg-290um-864e_output.root", "y12deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("x23deg-290um-864e_output.root", "x23deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("0deg-280um-864e_output.root", "0deg-280um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("y5deg-280um-864e_output.root", "y5deg-280um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("y12deg-280um-864e_output.root", "y12deg-280um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("x23deg-280um-864e_output.root", "x23deg-280um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
 
-# RunAnalysis("0deg-270um_output.root", "0deg-270um-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("0deg-280um_output.root", "0deg-280um-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("0deg-290um_output.root", "0deg-290um-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("0deg-300um_output.root", "0deg-300um-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
-# RunAnalysis("0deg-310um_output.root", "0deg-310um-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("0deg-270um-864e_output.root", "0deg-270um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("0deg-300um-864e_output.root", "0deg-300um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+RunAnalysis("0deg-310um-864e_output.root", "0deg-310um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
 
-RunAnalysis("0deg-25um-864e_output.root", "0deg-25um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
+
+
+# RunAnalysis("0deg-25um-864e_output.root", "0deg-25um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
 # RunAnalysis("0deg-50um-864e_output.root", "0deg-50um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
 # RunAnalysis("0deg-100um-864e_output.root", "0deg-100um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
 # RunAnalysis("0deg-150um-864e_output.root", "0deg-150um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
@@ -114,7 +114,7 @@ RunAnalysis("0deg-25um-864e_output.root", "0deg-25um-864e-CT_analysed.root", sou
 # RunAnalysis("0deg-280um-864e_output.root", "0deg-280um-864e-CT_analysed.root", source="allpix", CT_StS=0.0190, CT_StBP=0.0118)
 
 # RunAnalysis("0deg-290um-athena-cutNo_output.root", "0deg-290um-athena-noCut_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-290um-athena-cut50_output.root", "0deg-290um-athena-cut50um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-290um-athena-cut15_output.root", "0deg-290um-athena-cut15um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-280um-athena-cut50_output.root", "0deg-290um-athena-cut50um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-280um-athena-cut15_output.root", "0deg-290um-athena-cut15um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-290um-athena-cut5_output.root", "0deg-290um-athena-cut5um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-290um-athena-cut1_output.root", "0deg-290um-athena-cut1um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
