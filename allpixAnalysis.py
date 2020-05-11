@@ -35,7 +35,7 @@ def RunAnalysis(inputName, crosstalkSide, crosstalkBack):
     for thr in np.arange(thrStartFC, thrEndFC, thrStepFC):
         # Convert threshold from fC to e
         thrE = thr * 6242.2
-        print("Current threshold [fC]:", round(thr, 1), "/", thrEndFC, end="\r")
+        print "Current threshold [fC]:", round(thr, 1), "/", thrEndFC,
 
         for event in hitTree:  # Iterating over all events
             stripCharge = np.zeros(nOfStrips)
@@ -104,7 +104,7 @@ def RunAnalysis(inputName, crosstalkSide, crosstalkBack):
 args = sys.argv[1:]
 # Check validity of passed arguments
 if len(args) == 0 or len(args) > 5 or len(args)%2 != 1:
-    print("Invalid arguments.\nUsage: python3 allpixAnalysis.py INPUT_FILE [-side crosstalkSide] [-back crosstalkBack]")
+    print("Invalid arguments.\nUsage: python3 allpixAnalysis.py INPUT_FILE [--side crosstalkSide] [--back crosstalkBack]")
 else:
     # By default no cross talk
     crosstalkSide = 0.0
@@ -113,7 +113,7 @@ else:
     # Get input name and cross talk values from passed args
     inputName = args[0]
     for i in range(len(args)):
-        if args[i] == "-side":
+        if args[i] == "--side":
             # Check that cross talk value is a number
             try:
                 crosstalkSide = float(args[i+1])
@@ -126,7 +126,7 @@ else:
                 print("Invalid cross talk value (negative or >1), reverting to 0.")
                 crosstalkSide = 0.0
 
-        if args[i] == "-back":
+        if args[i] == "--back":
             # Check that cross talk value is a number
             try:
                 crosstalkBack = float(args[i+1])
