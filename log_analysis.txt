@@ -874,3 +874,273 @@ INPUT:	0deg-25um-864e_output.root
 DATE:	2020-05-11 17:49:33.152510
 CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
 -----
+
+OUTPUT:	0deg-280um-864e-CT_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-11 23:41:01.552136
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	y5deg-280um-864e-CT_analysed.root
+INPUT:	y5deg-280um-864e_output.root
+DATE:	2020-05-11 23:50:16.887385
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	y12deg-280um-864e-CT_analysed.root
+INPUT:	y12deg-280um-864e_output.root
+DATE:	2020-05-11 23:59:27.412806
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	x23deg-280um-864e-CT_analysed.root
+INPUT:	x23deg-280um-864e_output.root
+DATE:	2020-05-12 00:08:57.877306
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-864e-CT_analysed.root
+INPUT:	0deg-270um-864e_output.root
+DATE:	2020-05-12 00:29:27.561103
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-300um-864e-CT_analysed.root
+INPUT:	0deg-300um-864e_output.root
+DATE:	2020-05-12 00:38:54.691214
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-310um-864e-CT_analysed.root
+INPUT:	0deg-310um-864e_output.root
+DATE:	2020-05-12 00:49:13.366206
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-athena-cut50um_analysed.root
+INPUT:	0deg-280um-athena-cut50_output.root
+DATE:	2020-05-12 00:51:07.753915
+CONFIG:	  events=17056  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-athena-cut15um_analysed.root
+INPUT:	0deg-280um-athena-cut15_output.root
+DATE:	2020-05-12 00:52:59.295188
+CONFIG:	  events=17056  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-300um-864e_analysed.root
+INPUT:	0deg-300um-864e_output.root
+DATE:	2020-05-12 09:50:15.014528
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-athena-cut50um_analysed.root
+INPUT:	0deg-280um-athena-cut50_output.root
+DATE:	2020-05-12 11:01:49.788898
+CONFIG:	  events=17056  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-athena-cut15um_analysed.root
+INPUT:	0deg-280um-athena-cut15_output.root
+DATE:	2020-05-12 11:03:32.142574
+CONFIG:	  events=17056  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-25um-athena_analysed.root
+INPUT:	0deg-25um-athena_output.root
+DATE:	2020-05-12 11:05:15.118819
+CONFIG:	  events=33403  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-50um-athena_analysed.root
+INPUT:	0deg-50um-athena_output.root
+DATE:	2020-05-12 11:06:57.125856
+CONFIG:	  events=33403  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-100um-athena_analysed.root
+INPUT:	0deg-100um-athena_output.root
+DATE:	2020-05-12 11:08:40.797303
+CONFIG:	  events=33403  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-150um-athena_analysed.root
+INPUT:	0deg-150um-athena_output.root
+DATE:	2020-05-12 11:10:25.525114
+CONFIG:	  events=33403  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-200um-athena_analysed.root
+INPUT:	0deg-200um-athena_output.root
+DATE:	2020-05-12 11:12:14.494803
+CONFIG:	  events=33406  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-250um-athena_analysed.root
+INPUT:	0deg-250um-athena_output.root
+DATE:	2020-05-12 11:14:02.580843
+CONFIG:	  events=33406  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-athena_analysed.root
+INPUT:	0deg-270um-athena_output.root
+DATE:	2020-05-12 11:14:24.679766
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-athena_analysed.root
+INPUT:	0deg-290um-athena_output.root
+DATE:	2020-05-12 11:14:47.280455
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-300um-athena_analysed.root
+INPUT:	0deg-300um-athena_output.root
+DATE:	2020-05-12 11:15:09.429301
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-310um-athena_analysed.root
+INPUT:	0deg-310um-athena_output.root
+DATE:	2020-05-12 11:15:31.944237
+CONFIG:	  events=6638  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	y5deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	y5deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 11:39:09.069917
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	y12deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	y12deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 11:48:35.192482
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	x23deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	x23deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 11:57:35.822806
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-864e_analysed.root
+INPUT:	0deg-270um-864e_output.root
+DATE:	2020-05-12 13:24:27.989096
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-864e_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-12 13:31:58.647071
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-300um-864e_analysed.root
+INPUT:	0deg-290um-864e_output.root
+DATE:	2020-05-12 13:40:10.989448
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-300um-864e_analysed.root
+INPUT:	0deg-300um-864e_output.root
+DATE:	2020-05-12 13:47:27.421512
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-310um-864e_analysed.root
+INPUT:	0deg-310um-864e_output.root
+DATE:	2020-05-12 13:55:01.780140
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 14:04:23.909023
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 14:11:49.001401
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-864e_analysed.root
+INPUT:	0deg-270um-864e_output.root
+DATE:	2020-05-12 14:18:40.893773
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-864e_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-12 14:25:39.757294
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-290um-864e_analysed.root
+INPUT:	0deg-290um-864e_output.root
+DATE:	2020-05-12 14:33:13.087672
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-300um-864e_analysed.root
+INPUT:	0deg-300um-864e_output.root
+DATE:	2020-05-12 14:40:59.805615
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 14:54:03.456919
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-270um-864e_analysed.root
+INPUT:	0deg-270um-864e_output.root
+DATE:	2020-05-12 14:55:11.499687
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-12 15:02:31.134430
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-12 15:47:04.826227
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-CT_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-12 15:57:10.992805
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 16:54:27.467786
+CONFIG:	  events=50000  CT_StS=0.019  CT_StBP=0.0118  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 17:01:28.383929
+CONFIG:	  events=50000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-12 17:14:17.402648
+CONFIG:	  events=50000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-CT_analysed.root
+INPUT:	0deg-280um-864e_output.root
+DATE:	2020-05-12 17:22:29.228544
+CONFIG:	  events=50000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----

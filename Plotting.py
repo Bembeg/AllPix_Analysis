@@ -73,7 +73,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
 
     color = [1,2,4,6,9,9,6,4,2,1]
     # color = [1,1,2,2,4,4]
-    # color = [2,4,1]
+    color = [2,4,1]
     lineStyle = [2,2,2,2,2,2,1,1,1,1,1]   
     # lineStyle = [1,2,1,2,1,2,1,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
@@ -367,7 +367,7 @@ def PlotClusterSize (fileNames=0, legendEntries=0, refFileNames=0, refLegendEntr
     # color = [2,4,1]
     lineStyle = [2,2,2,2,1,1,1,1,1]   
     # lineStyle = [1,2,1,2,1,2,1,2]
-    markerStyle = [21,22,23,33,34,28,27,32,26,25]
+    markerStyle = [21,22,23,33,34,28,27,32,26,21]
     markerSize = 0.8
     textSize = 0.030
 
@@ -481,11 +481,11 @@ def MedianCharges():
     nOfPoints = len(thick)
     
     #Allpix with CT
-    chargesAllpix1 = [0.222, 0.459, 1.185, 1.847, 2.497, 3.163, 3.435, 3.564, 3.693, 3.821, 3.961]
-    errorsAllpix1 = [0.064] + [0.002] * (nOfPoints-1)
+    chargesAllpix1 = [0.224, 0.468, 1.197, 1.864, 2.521, 3.193, 3.466, 3.592, 3.733, 3.863, 3.991]
+    errorsAllpix1 = [0.063] + [0.002] * (nOfPoints-1)
 
     #Allpix no CT
-    chargesAllpix2 = [0.225, 0.504, 1.266, 1.961, 2.654, 3.361, 3.6479, 3.7848, 3.9223, 4.058, 4.206]
+    chargesAllpix2 = [0.224, 0.504, 1.266, 1.961, 2.654, 3.361, 3.6479, 3.7848, 3.9223, 4.058, 4.206]
     errorsAllpix2 = [0.057] + [0.002] * (nOfPoints-1)
 
     #Athena
@@ -511,8 +511,8 @@ def MedianCharges():
     graphAllpix1.GetXaxis().SetTitle("Active sensor thickness [#mum]")
     graphAllpix1.GetYaxis().SetTitle("Median charge [fC]")
     graphAllpix1.GetHistogram().SetMaximum(4.4)
-    graphAllpix1.GetHistogram().SetMinimum(2.8)
-    graphAllpix1.GetXaxis().SetLimits(270,320)
+    graphAllpix1.GetHistogram().SetMinimum(0)
+    graphAllpix1.GetXaxis().SetLimits(0,320)
     graphAllpix2.GetXaxis().SetLimits(0,330)
     graphAthena.GetXaxis().SetLimits(0,330)
 
@@ -559,50 +559,48 @@ def MedianCharges():
 
     legend.Draw("same")
 
-    canvas.SaveAs("results/test2_thicknessGraph.pdf")
+    canvas.SaveAs("results/thickness.pdf")
     
 
 # ------------------------------------------------------------------------------
 
 # Chi=0
 # Allpix steps
-fileNames = ["0deg-300um-step0.1_analysed.root", "0deg-300um_analysed.root", "0deg-300um-step5_analysed.root"]
-legendEntries = ["0.1 um", "1 um", "5 um"]
-legendHeader = "Maximum step length"
-plotName = "Allpix_stepLength"
+# fileNames = ["0deg-300um-step0.1_analysed.root", "0deg-300um_analysed.root", "0deg-300um-step5_analysed.root"]
+# legendEntries = ["0.1 um", "1 um", "5 um"]
+# legendHeader = "Maximum step length"
+# plotName = "Allpix_stepLength"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix Physics lists
-fileNames = ["0deg-300um-FTFPBERT_analysed.root", "0deg-300um-QGSPBERT_analysed.root", "0deg-300um_analysed.root", "0deg-300um-FTFPBERTPEN_analysed.root", "0deg-300um-FTFPBERTEMV_analysed.root", "0deg-300um-FTFPBERTEMZ_analysed.root"]
-legendEntries = ["FTFP_BERT", "QGSP_BERT", "FTFP_BERT_LIV", "FTFP_BERT_PEN", "FTFP_BERT_EMV", "FTFP_BERT_EMZ"]
-legendHeader = "Physics list"
-plotName = "Allpix_physicsList"
+# fileNames = ["0deg-300um-FTFPBERT_analysed.root", "0deg-300um-QGSPBERT_analysed.root", "0deg-300um_analysed.root", "0deg-300um-FTFPBERTPEN_analysed.root", "0deg-300um-FTFPBERTEMV_analysed.root", "0deg-300um-FTFPBERTEMZ_analysed.root"]
+# legendEntries = ["FTFP_BERT", "QGSP_BERT", "FTFP_BERT_LIV", "FTFP_BERT_PEN", "FTFP_BERT_EMV", "FTFP_BERT_EMZ"]
+# legendHeader = "Physics list"
+# plotName = "Allpix_physicsList"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix PAI model
-fileNames = ["0deg-300um_analysed.root", "0deg-300um-noPAI_analysed.root"] 
-legendEntries = ["Enabled", "Disabled"]
-legendHeader = "PAI model"
-plotName = "Allpix_PAImodel"
+# fileNames = ["0deg-300um_analysed.root", "0deg-300um-noPAI_analysed.root"] 
+# legendEntries = ["Enabled", "Disabled"]
+# legendHeader = "PAI model"
+# plotName = "Allpix_PAImodel"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix Charge per step
-fileNames = ["0deg-300um-chPerStep10_analysed.root", "0deg-300um_analysed.root", "0deg-300um-chPerStep100_analysed.root"] 
-legendEntries = ["10", "50", "100"]
-legendHeader = "Charge per step"
-plotName = "Allpix_chPerStep"
+# fileNames = ["0deg-300um-chPerStep10_analysed.root", "0deg-300um_analysed.root", "0deg-300um-chPerStep100_analysed.root"] 
+# legendEntries = ["10", "50", "100"]
+# legendHeader = "Charge per step"
+# plotName = "Allpix_chPerStep"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Chi = 1
 # Allpix thicknesses
-# fileNames = ["0deg-270um-CT_analysed.root", "0deg-280um-CT_analysed.root", "0deg-290um-CT_analysed.root", "0deg-300um-CT_analysed.root", "0deg-310um-CT_analysed.root"] 
-# legendEntries = ["Allpix, 270 #mum", "Allpix, 280 #mum", "Allpix, 290 #mum", "Allpix, 300 #mum", "Allpix, 310 #mum"]
-fileNames = ["0deg-280um-864e-CT_analysed.root", "0deg-290um-864e-CT_analysed.root"] 
-legendEntries = ["Allpix, 280 #mum", "Allpix, 290 #mum"]
+fileNames = ["0deg-270um-864e-CT_analysed.root", "0deg-280um-864e-CT_analysed.root", "0deg-290um-864e-CT_analysed.root", "0deg-300um-864e-CT_analysed.root", "0deg-310um-864e-CT_analysed.root"] 
+legendEntries = ["Allpix, 270 #mum", "Allpix, 280 #mum", "Allpix, 290 #mum", "Allpix, 300 #mum", "Allpix, 310 #mum"]
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam"]
 legendHeader = "Sensor thickness"
@@ -610,27 +608,37 @@ plotName = "Allpix_thickness"
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
+# Allpix thicknesses for median charge purposes only
+# fileNames = ["0deg-270um-864e_analysed.root", "0deg-280um-864e_analysed.root", "0deg-290um-864e_analysed.root", "0deg-300um-864e_analysed.root", "0deg-310um-864e_analysed.root"] 
+# legendEntries = ["Allpix, 270 #mum", "Allpix, 280 #mum", "Allpix, 290 #mum", "Allpix, 300 #mum", "Allpix, 310 #mum"]
+# refFileNames = []
+# refLegendEntries = []
+# legendHeader = "Sensor thickness"
+# plotName = "Allpix_thicknessNoCT"
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
 # Allpix crosstalk
-fileNames = [ "0deg-300um_analysed.root","0deg-300um-CT_analysed.root"]
-legendEntries = ["Allpix, no cross talk", "Allpix, cross talk"]
-refFileNames = ["ref-0deg-testbeam.root"]
-refLegendEntries = ["Test beam"]
-legendHeader = ""
-plotName = "Allpix_crosstalk"
+# fileNames = ["0deg-300um-864e_analysed.root","0deg-300um-864e-CT_analysed.root"]
+# legendEntries = ["Allpix, no cross talk", "Allpix, cross talk"]
+# refFileNames = ["ref-0deg-testbeam.root"]
+# refLegendEntries = ["Test beam"]
+# legendHeader = ""
+# plotName = "Allpix_crosstalk"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix original to testbeam
-fileNames = ["0deg-300um_analysed.root"]
-legendEntries = ["Allpix"]
-refFileNames = ["ref-0deg-testbeam.root"]
-refLegendEntries = ["Test beam"]
-plotName = "Allpix_original" 
+# fileNames = ["0deg-300um-864e_analysed.root"]
+# legendEntries = ["Allpix"]
+# refFileNames = ["ref-0deg-testbeam.root"]
+# refLegendEntries = ["Test beam"]
+# plotName = "Allpix_original" 
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Final rot Y
-fileNames = ["0deg-290um-864e-CT_analysed.root", "y5deg-290um-864e-CT_analysed.root", "y12deg-290um-864e-CT_analysed.root"]
+fileNames = ["0deg-280um-864e-TCAD-CT_analysed.root", "y5deg-280um-864e-TCAD-CT_analysed.root", "y12deg-280um-864e-TCAD-CT_analysed.root"]
 legendEntries = ["0#circ - Allpix", "5#circ - Allpix", "12#circ - Allpix"]
 refFileNames = ["ref-0deg-testbeam.root", "ref-5degy-testbeam.root", "ref-12degy-testbeam.root"]
 refLegendEntries = ["0#circ - Test beam", "5#circ - Test beam", "12#circ - Test beam"]
@@ -640,7 +648,7 @@ plotName = "Allpix_rotY"
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Final rot X
-fileNames = ["0deg-290um-864e-CT_analysed.root", "x23deg-290um-864e-CT_analysed.root"]
+fileNames = ["0deg-280um-864e-TCAD-CT_analysed.root", "x23deg-280um-864e-TCAD-CT_analysed.root"]
 legendEntries = ["0#circ - Allpix", "23#circ - Allpix"]
 refFileNames = ["ref-0deg-testbeam.root", "ref-23degx-testbeam.root"]
 refLegendEntries = ["0#circ - Test beam", "23#circ - Test beam"]
@@ -649,12 +657,19 @@ plotName = "Allpix_rotX"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# Athena thickness testing
-refFileNames = []
-refLegendEntries = []   
+# Allpix EF field models
+fileNames = ["0deg-280um-864e-TCAD-CT_analysed.root", "0deg-280um-864e-CT_analysed.root"]
+legendHeader = "Electric field model"
+legendEntries = ["Allpix, TCAD field", "Allpix, linear field"]
+plotName = "Allpix_EFmodels"
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam"]
+PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
+# Chi = 0
 # Athena original to testbeam
-fileNames =  ["test-290um_analysed.root", "0deg-290um-864e-CT_analysed.root"]
+fileNames =  ["0deg-280um-athena-cut50_analysed.root", "0deg-280um-864e-TCAD-CT_analysed.root"]
 legendEntries = ["Athena", "Allpix"]            
 refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam"]         
@@ -663,43 +678,41 @@ legendHeader = "Data points:"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
+refFileNames = []
+refLegendEntries = []   
+
 # Allpix no CT low thickness
-fileNames = ["0deg-25um-864e_analysed.root", "0deg-50um-864e_analysed.root", "0deg-100um-864e_analysed.root", "0deg-150um-864e_analysed.root", "0deg-200um-864e_analysed.root", "0deg-250um-864e_analysed.root"]
-legendEntries = ["25um","50um","100um","150um","200um","250um"]
-plotName = "Allpix_lowThick"
+# fileNames = ["0deg-25um-864e_analysed.root", "0deg-50um-864e_analysed.root", "0deg-100um-864e_analysed.root", "0deg-150um-864e_analysed.root", "0deg-200um-864e_analysed.root", "0deg-250um-864e_analysed.root"]
+# legendEntries = ["25um","50um","100um","150um","200um","250um"]
+# plotName = "Allpix_lowThick"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix with CT low thickness
-fileNames = ["0deg-25um-864e-CT_analysed.root", "0deg-50um-864e-CT_analysed.root", "0deg-100um-864e-CT_analysed.root", "0deg-150um-864e-CT_analysed.root", "0deg-200um-864e-CT_analysed.root", "0deg-250um-864e-CT_analysed.root"]
-legendEntries = ["25um","50um","100um","150um","200um","250um"]
-plotName = "Allpix_lowThick-CT"
+# fileNames = ["0deg-25um-864e-CT_analysed.root", "0deg-50um-864e-CT_analysed.root", "0deg-100um-864e-CT_analysed.root", "0deg-150um-864e-CT_analysed.root", "0deg-200um-864e-CT_analysed.root", "0deg-250um-864e-CT_analysed.root"]
+# legendEntries = ["25um","50um","100um","150um","200um","250um"]
+# plotName = "Allpix_lowThick-CT"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # # Athena low thickness
-fileNames = ["0deg-athena-25um_analysed.root", "0deg-athena-50um_analysed.root", "0deg-athena-100um_analysed.root", "0deg-athena-150um_analysed.root", "0deg-athena-200um_analysed.root", "0deg-athena-250um_analysed.root"]
-legendEntries = ["25um","50um","100um","150um","200um","250um"]
-plotName = "Athena_lowThick"
+# fileNames = ["0deg-25um-athena_analysed.root", "0deg-50um-athena_analysed.root", "0deg-100um-athena_analysed.root", "0deg-150um-athena_analysed.root", "0deg-200um-athena_analysed.root", "0deg-250um-athena_analysed.root"]
+# legendEntries = ["25um","50um","100um","150um","200um","250um"]
+# plotName = "Athena_lowThick"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
-# Allpix EF field models
-fileNames = ["0deg-280um-mercedesEF_analysed.root", "0deg-280um-linearEF_analysed.root"]
-legendHeader = "Electric field model"
-legendEntries = ["TCAD", "Linear"]
-plotName = "Allpix_EFmodels"
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
 
 # Athena cuts
-fileNames = ["0deg-290um-athena-cut50um_analysed.root", "0deg-290um-athena-cut15um_analysed.root"]
-legendEntries = ["50 #mum", "15.1 #mum"]
-refFileNames = []
-refLegendEntries = []  
-legendHeader = "Production cut"
-plotName = "Athena_cuts"
+# fileNames = ["0deg-280um-athena-cut50um_analysed.root", "0deg-280um-athena-cut15um_analysed.root"]
+# legendEntries = ["50 #mum", "15.1 #mum"]
+# refFileNames = []
+# refLegendEntries = []  
+# legendHeader = "Production cut"
+# plotName = "Athena_cuts"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+
 
 # MedianCharges()
