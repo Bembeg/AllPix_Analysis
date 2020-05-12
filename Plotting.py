@@ -605,8 +605,8 @@ refFileNames = ["ref-0deg-testbeam.root"]
 refLegendEntries = ["Test beam"]
 legendHeader = "Sensor thickness"
 plotName = "Allpix_thickness"
-PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
+# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
+# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix thicknesses for median charge purposes only
 # fileNames = ["0deg-270um-864e_analysed.root", "0deg-280um-864e_analysed.root", "0deg-290um-864e_analysed.root", "0deg-300um-864e_analysed.root", "0deg-310um-864e_analysed.root"] 
@@ -619,12 +619,12 @@ PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotNa
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
 # Allpix crosstalk
-# fileNames = ["0deg-300um-864e_analysed.root","0deg-300um-864e-CT_analysed.root"]
-# legendEntries = ["Allpix, no cross talk", "Allpix, cross talk"]
-# refFileNames = ["ref-0deg-testbeam.root"]
-# refLegendEntries = ["Test beam"]
-# legendHeader = ""
-# plotName = "Allpix_crosstalk"
+fileNames = ["0deg-300um-864e_analysed.root","0deg-300um-864e-CT_analysed.root"]
+legendEntries = ["Allpix, no cross talk", "Allpix, cross talk"]
+refFileNames = ["ref-0deg-testbeam.root"]
+refLegendEntries = ["Test beam"]
+legendHeader = ""
+plotName = "Allpix_crosstalk"
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
