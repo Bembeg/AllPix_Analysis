@@ -1192,3 +1192,21 @@ INPUT:	0deg-310um-864e_output.root
 DATE:	2020-05-12 18:50:23.151404
 CONFIG:	  events=50000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
 -----
+
+OUTPUT:	0deg-280um-864e-WF-CT_analysed.root
+INPUT:	0deg-280um-864e-WF_output.root
+DATE:	2020-05-13 11:18:48.463994
+CONFIG:	  events=10000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-WF_analysed.root
+INPUT:	0deg-280um-864e-WF_output.root
+DATE:	2020-05-13 11:20:14.275795
+CONFIG:	  events=10000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-280um-864e-TCAD-CT_analysed.root
+INPUT:	0deg-280um-864e-TCAD_output.root
+DATE:	2020-05-16 12:22:53.503632
+CONFIG:	  events=50000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----
