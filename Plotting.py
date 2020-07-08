@@ -654,19 +654,6 @@ def MedianCharges():
 # refLegendEntries = ["0#circ - Test beam", "23#circ - Test beam"]
 # legendHeader = "Incidence angle"
 # plotName = "Allpix_rotX"
-<<<<<<< HEAD
-=======
-# PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
-# PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
-
-# Allpix final
-# fileNames = ["0deg-300um-864e_analysed.root", "0deg-280um-864e-TCAD-CT_analysed.root", "0deg-280um-864e-WF-CT_analysed.root"]
-# legendEntries = ["Initial Allpix simulation", "Final Allpix simulation", "Final Allpix WF sim"]
-# refFileNames = ["ref-0deg-testbeam.root"]
-# refLegendEntries = ["Test beam"]
-# legendHeader = "Data points"
-# plotName = "Allpix_final_test2" 
->>>>>>> 5110fc74b023213d34f5cb984388a3ac68b7df9a
 # PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 # PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
 
@@ -682,13 +669,8 @@ def MedianCharges():
 
 # Chi = 0
 # Athena original to testbeam
-<<<<<<< HEAD
-# fileNames =  ["0deg-280um-athena-cut50_analysed.root", "0deg-280um-864e-TCAD-CT_analysed.root"]
-# legendEntries = ["Athena", "Allpix"]            
-=======
 # fileNames =  ["0deg-280um-864e-TCAD-CT_analysed.root","0deg-280um-athena-cut50um_analysed.root"]
 # legendEntries = [ "Allpix","Athena"]
->>>>>>> 5110fc74b023213d34f5cb984388a3ac68b7df9a
 # refFileNames = ["ref-0deg-testbeam.root"]
 # refLegendEntries = ["Test beam"]         
 # plotName = "Athena_original"      

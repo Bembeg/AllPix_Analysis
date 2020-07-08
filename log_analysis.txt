@@ -1259,3 +1259,21 @@ DATE:	2020-05-16 12:22:53.503632
 CONFIG:	  events=50000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
 >>>>>>> 5110fc74b023213d34f5cb984388a3ac68b7df9a
 -----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-07-08 08:32:03.029953
+CONFIG:	  events=100  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-07-08 08:32:40.413087
+CONFIG:	  events=100  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-07-08 09:02:16.703131
+CONFIG:	  events=1000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
+-----

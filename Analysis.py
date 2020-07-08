@@ -16,11 +16,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     effTitle = "Efficiency - " + outputName.split("_")[0]
     effHist = TH1D(effTitle, effTitle, 200, thrStartFC, thrEndFC)
     clusTitle = "Cluster Size - " + outputName.split("_")[0]
-<<<<<<< HEAD
     clusHist = TH2D(clusTitle, clusTitle, 200, thrStartFC, thrEndFC, 400, 0, 10)
-=======
-    clusHist = TH2D(clusTitle, clusTitle, 200, thrStartFC, thrEndFC, 1600, 0, 30)
->>>>>>> 5110fc74b023213d34f5cb984388a3ac68b7df9a
 
     if source == "athena":
         hitTree = rootFile.Get("SCT_RDOAnalysis").Get("SCT_RDOAna")
@@ -99,7 +95,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # Cc = 25, Cb = 0.25, Ci = 0.8
 # CT_StS = 1,53%, CT_StBP = 0,96%
 
-RunAnalysis("0deg-280um-864e-TCAD_output.root", "0deg-280um-864e-TCAD-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
+# RunAnalysis("0deg-280um-864e-TCAD_output.root", "0deg-280um-864e-TCAD-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 # RunAnalysis("0deg-280um-864e-TCAD_output.root", "0deg-280um-864e-TCAD_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("y5deg-280um-864e-TCAD_output.root", "y5deg-280um-864e-TCAD-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 # RunAnalysis("y12deg-280um-864e-TCAD_output.root", "y12deg-280um-864e-TCAD-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
@@ -123,12 +119,6 @@ RunAnalysis("0deg-280um-864e-TCAD_output.root", "0deg-280um-864e-TCAD-CT_analyse
 # RunAnalysis("0deg-290um-864e_output.root", "0deg-290um-864e-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 # RunAnalysis("0deg-300um-864e_output.root", "0deg-300um-864e-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 # RunAnalysis("0deg-310um-864e_output.root", "0deg-310um-864e-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
-<<<<<<< HEAD
-=======
-
-# RunAnalysis("0deg-280um-864e-WF_output.root","0deg-280um-864e-WF-CT_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
-# RunAnalysis("0deg-280um-864e-WF_output.root","0deg-280um-864e-WF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
->>>>>>> 5110fc74b023213d34f5cb984388a3ac68b7df9a
 
 # RunAnalysis("0deg-280um-athena-cut50_output.root", "0deg-280um-athena-cut50um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-280um-athena-cut15_output.root", "0deg-280um-athena-cut15um_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
@@ -145,9 +135,6 @@ RunAnalysis("0deg-280um-864e-TCAD_output.root", "0deg-280um-864e-TCAD-CT_analyse
 # RunAnalysis("0deg-300um-athena_output.root", "0deg-300um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-310um-athena_output.root", "0deg-310um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
-<<<<<<< HEAD
 # RunAnalysis("0deg-linear_output.root", "0deg-linear_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 # RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
-=======
->>>>>>> 5110fc74b023213d34f5cb984388a3ac68b7df9a
