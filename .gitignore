@@ -1,5 +1,6 @@
 # Ignore raw output data
 data/raw/
+.vscode/
 
 # Ignore pdf plots - not sure about this one?
 # results/
