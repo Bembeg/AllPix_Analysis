@@ -35,7 +35,7 @@ def RunAnalysis(inputName, crosstalkSide, crosstalkBack):
     for thr in np.arange(thrStartFC, thrEndFC, thrStepFC):
         # Convert threshold from fC to e
         thrE = thr * 6242.2
-        print "Current threshold [fC]:", round(thr, 1), "/", thrEndFC,
+        print("Current threshold [fC]:", round(thr, 1), "/", thrEndFC, end="\r")
 
         for event in hitTree:  # Iterating over all events
             stripCharge = np.zeros(nOfStrips)
