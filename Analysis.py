@@ -135,7 +135,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("0deg-300um-athena_output.root", "0deg-300um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-310um-athena_output.root", "0deg-310um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
-RunAnalysis("0deg-lin_output.root", "0deg-lin_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-lin_output.root", "0deg-lin_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
