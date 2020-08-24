@@ -12,7 +12,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     rootFile = TFile("data/raw/" + inputName)
     writeFile = TFile("data/" + outputName, "recreate") 
     
-    (thrStartFC, thrEndFC, thrStepFC) = (0, 8, 0.1)
+    (thrStartFC, thrEndFC, thrStepFC) = (0, 8, 0.3)
     effTitle = "Efficiency - " + outputName.split("_")[0]
     effHist = TH1D(effTitle, effTitle, 200, thrStartFC, thrEndFC)
     clusTitle = "Cluster Size - " + outputName.split("_")[0]
@@ -27,7 +27,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
                 nOfParts += 1 
     elif source == "allpix":
         hitTree = rootFile.PixelCharge
-        nOfStrips = int(str(rootFile.models.Get("atlas17_dut").Get("number_of_pixels")).split(" ")[0])
+        nOfStrips = int(str(rootFile.models.Get("atlas17_dut").Get("number_of_pixels")).split(" ")[1])
         nOfParts = int(str(rootFile.config.Get("Allpix").Get("number_of_events")))
     else:
         print("Unknown source.")
@@ -42,7 +42,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
             stripCharge = np.zeros(nOfStrips)
             if source == "allpix":
                 for stripHit in event.dut:    # iterating over all strips hit in that event of Allpix simulation
-                    stripCharge[stripHit.getIndex().X()] = stripHit.getCharge()
+                    stripCharge[stripHit.getIndex().Y()] = stripHit.getCharge()
             elif source == "athena":
                 nonEmptyStrips = list(event.strip_sdo)
                 nonEmptyStripsCharge = list(event.charge)
@@ -135,6 +135,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("0deg-300um-athena_output.root", "0deg-300um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-310um-athena_output.root", "0deg-310um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
-# RunAnalysis("0deg-linear_output.root", "0deg-linear_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
-RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
-# RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
+RunAnalysis("0deg-lin_output.root", "0deg-lin_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
