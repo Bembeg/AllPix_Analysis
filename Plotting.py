@@ -714,8 +714,8 @@ def MedianCharges():
 
 # MedianCharges()
 
-fileNames = ["0deg-linear_analysed.root", "0deg-EF_analysed.root", "0deg-WF-EF_analysed.root"]
-legendEntries = ["linear", "EF", "WF+EF"]
+fileNames = ["0deg-lin_analysed.root", "0deg-EF_analysed.root", "0deg-WF-EF_analysed.root", "0deg-WF4-EF_analysed.root"]
+legendEntries = ["linear", "EF", "WF+EF", "WF4+EF"]
 legendHeader = "fields"
 plotName = "fields"
 refFileNames = ["ref-0deg-testbeam.root"]
