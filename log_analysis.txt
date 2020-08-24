@@ -1283,3 +1283,33 @@ INPUT:	0deg-WF-EF_output.root
 DATE:	2020-08-12 13:11:52.283788
 CONFIG:	  events=1000  CT_StS=0.0153  CT_StBP=0.0096  thrStep=0.1
 -----
+
+OUTPUT:	0deg-lin_analysed.root
+INPUT:	0deg-lin_output.root
+DATE:	2020-08-24 09:29:40.809005
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.1
+-----
+
+OUTPUT:	0deg-lin_analysed.root
+INPUT:	0deg-lin_output.root
+DATE:	2020-08-24 09:31:41.412587
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-08-24 09:33:26.490084
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-WF4-EF_analysed.root
+INPUT:	0deg-WF4-EF_output.root
+DATE:	2020-08-24 09:34:34.333882
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-08-24 09:35:27.673855
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
