@@ -78,7 +78,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
     # lineStyle = [1,2,1,2,1,2,1,2]
     markerStyle = [21,22,23,33,34,28,27,32,26,25]
     
-    axisRangeXLow = 0.5
+    axisRangeXLow = 0.0
     axisRangeXHigh = 6
     axisRangeYLow = 0
     axisRangeYHigh = 1.02
@@ -263,7 +263,7 @@ def PlotEfficiency (fileNames=0, legendEntries=0, refFileNames=[], refLegendEntr
 
     # Legend
     if plotRatio == 1: legendWidthCoeff = 0.011
-    else: legendWidthCoeff = 0.011
+    else: legendWidthCoeff = 0.015
     legendWidth = 0.9 - legendWidthCoeff*max([len(max(legendEntries, key=len))+2, len(legendHeader), len(max(refLegendEntries, key=len))+4])
     legendHeight = 0.9 - (len(fileNames)+len(refFileNames))*0.05#-0.05
     legend = TLegend(legendWidth, legendHeight, 0.9, 0.9)
@@ -714,11 +714,11 @@ def MedianCharges():
 
 # MedianCharges()
 
-fileNames = ["0deg-lin_analysed.root", "0deg-EF_analysed.root", "0deg-WF-EF_analysed.root", "0deg-WF4-EF_analysed.root"]
-legendEntries = ["linear", "EF", "WF+EF", "WF4+EF"]
+fileNames = ["0deg-lin_analysed.root", "0deg-EF_analysed.root", "0deg-WF-EF_analysed.root"]
+legendEntries = ["Linear EF", "TCAD EF","TCAD EF+WF"]
 legendHeader = "fields"
 plotName = "fields"
-refFileNames = ["ref-0deg-testbeam.root"]
-refLegendEntries = ["Test beam"]       
+refFileNames = []
+refLegendEntries = []       
 PlotEfficiency(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader, plotRatio=0)
 PlotClusterSize(fileNames, legendEntries, refFileNames, refLegendEntries, plotName, legendHeader)
