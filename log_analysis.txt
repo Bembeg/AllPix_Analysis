@@ -1319,3 +1319,15 @@ INPUT:	0deg-WF4-EF_output.root
 DATE:	2020-08-24 11:47:34.405910
 CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
 -----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-08-26 11:51:10.567710
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-08-26 12:20:43.024157
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
