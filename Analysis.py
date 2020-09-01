@@ -42,6 +42,8 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
             stripCharge = np.zeros(nOfStrips)
             if source == "allpix":
                 for stripHit in event.dut:    # iterating over all strips hit in that event of Allpix simulation
+                    if stripHit.getCharge() < 5000:
+                        continue
                     stripCharge[stripHit.getIndex().Y()] = stripHit.getCharge()
             elif source == "athena":
                 nonEmptyStrips = list(event.strip_sdo)
@@ -137,5 +139,5 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 
 # RunAnalysis("0deg-lin_output.root", "0deg-lin_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
