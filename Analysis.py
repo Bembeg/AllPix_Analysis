@@ -1,9 +1,55 @@
 #!/usr/bin/python3
 
-from ROOT import TFile, TH1D, TH2D, TMath
+from ROOT import TFile, TH1F, TH2D, TH1I, TH2I, TMath
 import numpy as np
 from datetime import datetime as date
  
+
+def GetCluster(event, threshold, source="allpix", CT_StS=0.0, CT_StBP=0.0, nOfStrips=1280):
+    if source == "allpix":
+        stripCharge = np.zeros(nOfStrips, dtype=np.float32)
+        for stripHit in event.dut:    # iterating over all strips hit in that event of Allpix simulation
+            stripCharge[stripHit.getIndex().Y()] = stripHit.getCharge()
+            # charge = stripHit.getCharge()
+            # if charge > 10000:
+            # charge_sum += charge
+            # stripCharge[stripHit.getIndex().Y()] = chargenOfStripsnOfStrips
+            
+        # stripChargeAdj = np.copy(stripCharge)
+        # if CT_StBP > 0 and CT_StS > 0:
+        #     chargeMask = np.nonzero(stripCharge)
+        #     for stripIndex in chargeMask:
+        #         chargeStoS = stripCharge[stripIndex] * CT_StS
+        #         chargeStoBP = stripCharge[stripIndex] * CT_StBP
+        #         try:
+        #             stripChargeAdj[stripIndex] -= 2 * chargeStoS + chargeStoBP
+        #             stripChargeAdj[stripIndex - 1] += chargeStoS
+        #             stripChargeAdj[stripIndex + 1] += chargeStoS
+        #         except IndexError:
+        #             pass         
+
+    elif source == "athena":
+        stripCharge = np.zeros(nOfStrips, dtype=np.float64)
+        nonEmptyStrips = list(event.strip_sdo)
+        nonEmptyStripsCharge = list(event.charge)
+        for i in range(len(nonEmptyStrips)):    # iterating over all strips hit in that event of Athena simulation
+            stripCharge[nonEmptyStrips[i]] = nonEmptyStripsCharge[i]
+
+        stripChargeAdj = np.copy(stripCharge)
+        if CT_StBP > 0 and CT_StS > 0:
+            chargeMask = np.nonzero(stripCharge)
+            for stripIndex in chargeMask:
+                chargeStoS = stripCharge[stripIndex] * CT_StS
+                chargeStoBP = stripCharge[stripIndex] * CT_StBP
+                try:
+                    stripChargeAdj[stripIndex] -= 2 * chargeStoS + chargeStoBP
+                    stripChargeAdj[stripIndex - 1] += chargeStoS
+                    stripChargeAdj[stripIndex + 1] += chargeStoS
+                except IndexError:
+                    pass         
+   
+    return len(np.where(stripCharge > threshold)[0])
+    
 
 def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     if outputName == 0: 
@@ -12,11 +58,11 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     rootFile = TFile("data/raw/" + inputName)
     writeFile = TFile("data/" + outputName, "recreate") 
     
-    (thrStartFC, thrEndFC, thrStepFC) = (0, 8, 0.3)
+    (thrStartFC, thrEndFC, thrStepFC) = (0, 1, 0.3)
     effTitle = "Efficiency - " + outputName.split("_")[0]
-    effHist = TH1D(effTitle, effTitle, 200, thrStartFC, thrEndFC)
+    effHist = TH1F(effTitle, effTitle, 200, thrStartFC, thrEndFC)
     clusTitle = "Cluster Size - " + outputName.split("_")[0]
-    clusHist = TH2D(clusTitle, clusTitle, 200, thrStartFC, thrEndFC, 400, 0, 10)
+    clusHist = TH2I(clusTitle, clusTitle, 200, thrStartFC, thrEndFC, 400, 0, 10)
 
     if source == "athena":
         hitTree = rootFile.Get("SCT_RDOAnalysis").Get("SCT_RDOAna")
@@ -35,36 +81,13 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 
     print("CONFIG: Source:", source, ",  Events:", nOfParts, ",  CT_StS:", CT_StS, ",  CT_StBP:", CT_StBP)
         
+    # charge_sum = 0
     for thr in np.arange(thrStartFC, thrEndFC, thrStepFC):
         thrE = thr * 6242.2
         print("Current threshold [fC]:", round(thr, 1), end="\r")
+               
         for event in hitTree:  # iterating over all events
-            stripCharge = np.zeros(nOfStrips)
-            if source == "allpix":
-                for stripHit in event.dut:    # iterating over all strips hit in that event of Allpix simulation
-                    if stripHit.getCharge() < 5000:
-                        continue
-                    stripCharge[stripHit.getIndex().Y()] = stripHit.getCharge()
-            elif source == "athena":
-                nonEmptyStrips = list(event.strip_sdo)
-                nonEmptyStripsCharge = list(event.charge)
-                for i in range(len(nonEmptyStrips)):    # iterating over all strips hit in that event of Athena simulation
-                    stripCharge[nonEmptyStrips[i]] = nonEmptyStripsCharge[i]
-                
-            stripChargeAdj = np.copy(stripCharge)
-            if CT_StBP > 0 and CT_StS > 0:
-                chargeMask = np.nonzero(stripCharge)
-                for stripIndex in chargeMask:
-                    chargeStoS = stripCharge[stripIndex] * CT_StS
-                    chargeStoBP = stripCharge[stripIndex] * CT_StBP
-                    try:
-                        stripChargeAdj[stripIndex] -= 2 * chargeStoS + chargeStoBP
-                        stripChargeAdj[stripIndex - 1] += chargeStoS
-                        stripChargeAdj[stripIndex + 1] += chargeStoS
-                    except IndexError:
-                        pass
-
-            cluster = len(np.where(stripChargeAdj > thrE)[0])
+            cluster = GetCluster(event, thrE, source, CT_StS, CT_StBP, nOfStrips)
             if cluster > 0:
                 effHist.Fill(thr)
                 clusHist.Fill(thr, cluster)
@@ -74,14 +97,14 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     clusHist = clusHist.ProfileX()
     print("Analysis done.                                         \n")
     rootFile.Close()
-    writeFile.Write()
+    # writeFile.Write()
     writeFile.Close()
 
-    logFile = open("log_analysis.txt", "a")
+    # logFile = open("log_analysis.txt", "a")
     # logFile.writelines("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "thickness=" + str(thickness) + "  events=" + str(nOfParts) + "  scaleXfactor=" + str(scaleXFactor) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC))
-    logFile.writelines(("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "  events=" + str(nOfParts) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC)))
-    logFile.write("\n-----\n")
-    logFile.close()
+    # logFile.writelines(("\nOUTPUT:\t" + outputName + "\nINPUT:\t" + inputName + "\nDATE:\t" + str(date.now())+ "\nCONFIG:\t" + "  events=" + str(nOfParts) + "  CT_StS=" + str(CT_StS) +  "  CT_StBP=" + str(CT_StBP) + "  thrStep=" + str(thrStepFC)))
+    # logFile.write("\n-----\n")
+    # logFile.close()
 
 
 # ------------------------------------------------------------------------
@@ -137,7 +160,8 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("0deg-300um-athena_output.root", "0deg-300um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-310um-athena_output.root", "0deg-310um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
-# RunAnalysis("0deg-lin_output.root", "0deg-lin_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-lin_output.root", "test.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-EF-CTint_output.root", "0deg-EF-CTint_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)

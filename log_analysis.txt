@@ -1367,3 +1367,57 @@ INPUT:	0deg-WF-EF_output.root
 DATE:	2020-09-01 07:56:09.521386
 CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
 -----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-09-03 08:24:36.870375
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-09-03 08:58:56.655940
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-09-03 08:59:42.610598
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-09-03 09:18:33.128282
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-09-03 09:19:22.093502
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-09-03 09:29:13.875919
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-WF-EF_analysed.root
+INPUT:	0deg-WF-EF_output.root
+DATE:	2020-09-03 09:30:00.814891
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-WFt-EF_analysed.root
+INPUT:	0deg-WFt-EF_output.root
+DATE:	2020-09-07 08:43:30.171814
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----
+
+OUTPUT:	0deg-EF_analysed.root
+INPUT:	0deg-EF_output.root
+DATE:	2020-09-07 08:45:01.868560
+CONFIG:	  events=1000  CT_StS=0.0  CT_StBP=0.0  thrStep=0.3
+-----

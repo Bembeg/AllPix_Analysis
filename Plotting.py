@@ -715,7 +715,7 @@ def MedianCharges():
 # MedianCharges()
 
 fileNames = ["0deg-lin_analysed.root", "0deg-EF_analysed.root", "0deg-WF-EF_analysed.root"]
-legendEntries = ["Linear EF", "TCAD EF","TCAD EF+WF"]
+legendEntries = ["Linear EF", "TCAD EF ","TCAD EF+WF"]
 legendHeader = "fields"
 plotName = "fields"
 refFileNames = []
