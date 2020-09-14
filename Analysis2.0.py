@@ -17,8 +17,8 @@ def ImportROOTFile(input_name):
     i = 0
     hit_dict = dict()
     for event in hit_tree:
-        if i/n_particles * 100 % 1 == 1:
-            print("Processing events:", i/n_particles*100, end="\r")
+        if (i+2) % 10 == 1:
+            print("Processing events:", round((i+1)/n_particles*100,1),"%",  end="\r")
         charges_dict = dict()
         for stripHit in event.dut:
             charges_dict[stripHit.getIndex().Y()] = stripHit.getCharge()
@@ -75,7 +75,7 @@ def RunAnalysis(input_name, output_name=""):
 
     for thr in thr_range:
         thrE = thr * 6242.2
-        print("Threshold scanning:", round(thr, 1), end="\r")
+        print("Threshold scanning:", round(thr/thr_end*100, 1), "%", end="\r")
 
         cluster_list = ScanThresholdDict(hit_dict, thrE)
         
@@ -83,7 +83,7 @@ def RunAnalysis(input_name, output_name=""):
             eff.Fill(bool(cluster), thr)
         clus_graph.SetPoint(int(np.where(thr_range == thr)[0][0]), thr, np.mean(cluster_list))  
         clus_graph.SetPointError(int(np.where(thr_range == thr)[0][0]), ex=0, ey=sem(cluster_list))
-    print()
+    print("\nDone.")
     eff.Write()
     clus_graph.Write()
     # write_file.Write()
@@ -91,8 +91,7 @@ def RunAnalysis(input_name, output_name=""):
 
 
 # ImportROOTFile("0deg-lin_output.root")
-# RunAnalysis("0deg-lin_output.root", "test_analysed.root")
+RunAnalysis("0deg-lin_output.root", "test_analysed.root")
 # RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-# RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
-RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root")
+# RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root")
 # RunAnalysis("0deg-EF-CTint_output.root", "0deg-EF-CTint_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
