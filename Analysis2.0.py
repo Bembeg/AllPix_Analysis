@@ -64,10 +64,10 @@ def DrawCharge(modules_file_names):
             
         else:
             histograms[i].Draw("same")
-        # histograms[i].SetLineColor(i+1)    
-        histograms[0].SetLineColor(2)
-        histograms[1].SetLineColor(1)
-    canvas.SaveAs("test.png")
+        histograms[i].SetLineColor(i+1)    
+        # histograms[0].SetLineColor(2)
+        # histograms[1].SetLineColor(1)
+    canvas.SaveAs("plot.pdf")
 
 
 def RunAnalysis(input_name, output_name=""):
