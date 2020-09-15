@@ -36,17 +36,14 @@ def ScanThresholdDict(hit_dict, threshold):
 
 
 def IntegrateCharge(modules_file_name, q_low = 0, q_high = 50):
-    # Doesnt work, gives fEntries!
     input_file = TFile("data/raw/" + modules_file_name)
     cluster_charge = input_file.Get("DetectorHistogrammer").Get("dut").Get("cluster_charge")
     bin_low = cluster_charge.FindBin(q_low)
     bin_high = cluster_charge.FindBin(q_high)
 
-    total_charge = 0
-    for bin in range(bin_low, bin_high+1):
-        total_charge += cluster_charge.GetBinContent(bin)*cluster_charge.GetBinCenter(bin)
+    total_charge = sum([cluster_charge.GetBinContent(bin)*cluster_charge.GetBinCenter(bin) for bin in range(bin_low, bin_high+1)])
     
-    print(modules_file_name, ": ", total_charge, "ke")
+    print(modules_file_name, ": ", round(total_charge,2), "ke")
 
 
 def DrawCharge(modules_file_names):
@@ -61,12 +58,9 @@ def DrawCharge(modules_file_names):
             histograms[i].GetXaxis().SetRangeUser(0, 70)
             histograms[i].GetXaxis().SetTitleOffset(1.0)
             histograms[i].GetYaxis().SetTitleOffset(1.0)
-            
         else:
             histograms[i].Draw("same")
         histograms[i].SetLineColor(i+1)    
-        # histograms[0].SetLineColor(2)
-        # histograms[1].SetLineColor(1)
     canvas.SaveAs("plot.pdf")
 
 
