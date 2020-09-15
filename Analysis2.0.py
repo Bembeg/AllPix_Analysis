@@ -1,18 +1,14 @@
 #!/usr/bin/python3
 
-from ROOT import TFile, TEfficiency, TGraphErrors
+from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas
 import numpy as np
 from math import floor
 from scipy.stats import sem
-from os import system
-import gc
-import cProfile
-from guppy import hpy
+
 
 def ImportROOTFile(input_name):
     root_file = TFile("data/raw/" + input_name)
     n_particles = int(str(root_file.config.Get("Allpix").Get("number_of_events")))
-
     hit_tree = root_file.PixelCharge
     i = 0
     hit_dict = dict()
@@ -26,7 +22,9 @@ def ImportROOTFile(input_name):
         i += 1
     print()
     root_file.Close()
+
     return hit_dict
+
 
 def ScanThresholdDict(hit_dict, threshold):
     cluster_list = list()
@@ -35,29 +33,48 @@ def ScanThresholdDict(hit_dict, threshold):
         cluster_list.append(hits)
     
     return cluster_list
-        
 
-def ScanThresholdTree(hit_tree, threshold):
-    cluster_list = list()
-    for event in hit_tree:
-        charges_dict = dict()
-        for stripHit in event.dut:
-            charges_dict[stripHit.getIndex().Y()] = stripHit.getCharge()
-        hits = sum(charge >= threshold for charge in charges_dict.values())
-        cluster_list.append(hits)
-    return cluster_list 
+
+def IntegrateCharge(modules_file_name, q_low = 0, q_high = 50):
+    # Doesnt work, gives fEntries!
+    input_file = TFile("data/raw/" + modules_file_name)
+    cluster_charge = input_file.Get("DetectorHistogrammer").Get("dut").Get("cluster_charge")
+    bin_low = cluster_charge.FindBin(q_low)
+    bin_high = cluster_charge.FindBin(q_high)
+
+    total_charge = 0
+    for bin in range(bin_low, bin_high+1):
+        total_charge += cluster_charge.GetBinContent(bin)*cluster_charge.GetBinCenter(bin)
+    
+    print(modules_file_name, ": ", total_charge, "ke")
+
+
+def DrawCharge(modules_file_names):
+    file_paths = ["data/raw/" + file_name for file_name in modules_file_names]
+    input_files = [TFile(file_path, "r") for file_path in file_paths]
+    histograms = [input_file.Get("DetectorHistogrammer").Get("dut").Get("cluster_charge") for input_file in input_files]
+    canvas = TCanvas("canvas", "canvas", 600, 600)
+    for i in range(len(histograms)):
+        histograms[i].Rebin(20)
+        if i == 0:
+            histograms[i].Draw()
+            histograms[i].GetXaxis().SetRangeUser(0, 70)
+            histograms[i].GetXaxis().SetTitleOffset(1.0)
+            histograms[i].GetYaxis().SetTitleOffset(1.0)
+            
+        else:
+            histograms[i].Draw("same")
+        # histograms[i].SetLineColor(i+1)    
+        histograms[0].SetLineColor(2)
+        histograms[1].SetLineColor(1)
+    canvas.SaveAs("test.png")
+
 
 def RunAnalysis(input_name, output_name=""):
     if not output_name: 
         output_name = input_name.split("_")[0] + "_analysed.root"
     print("INPUT:", input_name, "\nOUTPUT:", output_name)
-
-    # root_file = TFile("data/raw/" + input_name)
-
-    # hit_tree = root_file.PixelCharge
-    # n_strips = int(str(root_file.models.Get("atlas17_dut").Get("number_of_pixels")).split(" ")[1])
-    # n_particles = int(str(root_file.config.Get("Allpix").Get("number_of_events")))
-
+    
     (thr_start, thr_end, thr_step) = (0, 8, 0.1)
     thr_range = np.arange(thr_start, thr_end+thr_step, thr_step) 
     n_thr = len(thr_range)
@@ -80,9 +97,17 @@ def RunAnalysis(input_name, output_name=""):
         cluster_list = ScanThresholdDict(hit_dict, thrE)
         
         for cluster in cluster_list:
-            eff.Fill(bool(cluster), thr)
-        clus_graph.SetPoint(int(np.where(thr_range == thr)[0][0]), thr, np.mean(cluster_list))  
-        clus_graph.SetPointError(int(np.where(thr_range == thr)[0][0]), ex=0, ey=sem(cluster_list))
+            eff.Fill(bool(cluster), thr)      
+
+        cluster_list = [np.nan if cluster == 0 else cluster for cluster in cluster_list]
+        
+        try:
+            cluster_size = np.nanmean(cluster_list)
+            clus_graph.SetPoint(int(np.where(thr_range == thr)[0][0]), thr, cluster_size)  
+            clus_graph.SetPointError(int(np.where(thr_range == thr)[0][0]), ex=0, ey=np.nanstd(cluster_list))
+        except RuntimeWarning:
+            pass        
+            
     print("\nDone.")
     eff.Write()
     clus_graph.Write()
@@ -90,8 +115,13 @@ def RunAnalysis(input_name, output_name=""):
     write_file.Close()
 
 
-# ImportROOTFile("0deg-lin_output.root")
-RunAnalysis("0deg-lin_output.root", "test_analysed.root")
-# RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# ImportROOTFile("0deg-WF-EF_output.root")
+# RunAnalysis("0deg-lin_output.root", "test_analysed.root")
+# RunAnalysis("0deg-EF_output.root")
 # RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root")
-# RunAnalysis("0deg-EF-CTint_output.root", "0deg-EF-CTint_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+# RunAnalysis("0deg-EF-CTint_output.root", "0deg-EF-CTint_analysed.root")
+
+IntegrateCharge("0deg-EF_modules.root")
+IntegrateCharge("0deg-WF-EF_modules.root")
+
+# DrawCharge(["0deg-EF_modules.root", "0deg-WF-EF_modules.root"])
