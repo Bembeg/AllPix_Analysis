@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas
+from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas, TF1
 import numpy as np
 from math import floor
 from scipy.stats import sem
@@ -98,24 +98,35 @@ def RunAnalysis(input_name, output_name=""):
         try:
             cluster_size = np.nanmean(cluster_list)
             clus_graph.SetPoint(int(np.where(thr_range == thr)[0][0]), thr, cluster_size)  
-            clus_graph.SetPointError(int(np.where(thr_range == thr)[0][0]), ex=0, ey=np.nanstd(cluster_list))
+            clus_graph.SetPointError(int(np.where(thr_range == thr)[0][0]), ex=0, ey=sem(cluster_list))
         except RuntimeWarning:
             pass        
             
     print("\nDone.")
+
+    # === Efficiency fit ===
+    fit_form = "0.5*[0]*TMath::Erfc((x-[1])/(TMath::Sqrt(2)*[2])*(1-0.6*TMath::TanH([3]*(x-[1])/TMath::Sqrt(2)*[2])))"
+    # fit_form = "[0]+x*[1]"
+    fit_func = TF1("Efficiency_fit", fit_form, 0, 8)
+    fit_func.SetLineColor(4)
+    fit_func.SetParameters(1, 4, 1, 1, 0.5)
+    fit_func.SetParLimits(4, 0.5, 0.7)
+    fit_func.SetParLimits(1, 0, 5)
+    fit_func.SetParLimits(2, 0, 2)
+    fit_func.SetParLimits(3, 0, 2)
+    eff.Fit(fit_func, "R")
+    
     eff.Write()
     clus_graph.Write()
-    # write_file.Write()
     write_file.Close()
 
 
 # ImportROOTFile("0deg-WF-EF_output.root")
-# RunAnalysis("0deg-lin_output.root", "test_analysed.root")
-# RunAnalysis("0deg-EF_output.root")
-# RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root")
-# RunAnalysis("0deg-EF-CTint_output.root", "0deg-EF-CTint_analysed.root")
 
-IntegrateCharge("0deg-EF_modules.root")
-IntegrateCharge("0deg-WF-EF_modules.root")
+RunAnalysis("0deg-EF-CTint_output.root", "test.root")
+# RunAnalysis("0deg-histat_output.root")
+
+# IntegrateCharge("0deg-EF_modules.root")
+# IntegrateCharge("0deg-WF-EF_modules.root")
 
 # DrawCharge(["0deg-EF_modules.root", "0deg-WF-EF_modules.root"])
