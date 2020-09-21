@@ -6,7 +6,7 @@ from math import floor
 from scipy.stats import sem
 
 
-def ImportROOTFile(input_name):
+def GetHitDict(input_name):
     root_file = TFile("data/raw/" + input_name)
     n_particles = int(str(root_file.config.Get("Allpix").Get("number_of_events")))
     hit_tree = root_file.PixelCharge
@@ -26,7 +26,7 @@ def ImportROOTFile(input_name):
     return hit_dict
 
 
-def ScanThresholdDict(hit_dict, threshold):
+def ScanThresholds(hit_dict, threshold):
     cluster_list = list()
     for event in hit_dict.values():
         hits = sum(charge >= threshold for charge in event.values())
@@ -73,7 +73,7 @@ def RunAnalysis(input_name, output_name=""):
     thr_range = np.arange(thr_start, thr_end+thr_step, thr_step) 
     n_thr = len(thr_range)
 
-    hit_dict = ImportROOTFile(input_name)
+    hit_dict = GetHitDict(input_name)
 
     write_file = TFile("data/" + output_name, "recreate") 
     write_file.cd()
@@ -88,7 +88,7 @@ def RunAnalysis(input_name, output_name=""):
         thrE = thr * 6242.2
         print("Threshold scanning:", round(thr/thr_end*100, 1), "%", end="\r")
 
-        cluster_list = ScanThresholdDict(hit_dict, thrE)
+        cluster_list = ScanThresholds(hit_dict, thrE)
         
         for cluster in cluster_list:
             eff.Fill(bool(cluster), thr)      
@@ -121,7 +121,8 @@ def RunAnalysis(input_name, output_name=""):
     write_file.Close()
 
 
-# ImportROOTFile("0deg-WF-EF_output.root")
+
+# GetHitDict("0deg-WF-EF_output.root")
 
 RunAnalysis("0deg-EF-CTint_output.root", "test.root")
 # RunAnalysis("0deg-histat_output.root")
