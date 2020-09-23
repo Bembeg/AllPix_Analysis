@@ -10,23 +10,19 @@ def GetCluster(event, threshold, source="allpix", CT_StS=0.0, CT_StBP=0.0, nOfSt
         stripCharge = np.zeros(nOfStrips, dtype=np.float32)
         for stripHit in event.dut:    # iterating over all strips hit in that event of Allpix simulation
             stripCharge[stripHit.getIndex().Y()] = stripHit.getCharge()
-            # charge = stripHit.getCharge()
-            # if charge > 10000:
-            # charge_sum += charge
-            # stripCharge[stripHit.getIndex().Y()] = chargenOfStripsnOfStrips
             
-        # stripChargeAdj = np.copy(stripCharge)
-        # if CT_StBP > 0 and CT_StS > 0:
-        #     chargeMask = np.nonzero(stripCharge)
-        #     for stripIndex in chargeMask:
-        #         chargeStoS = stripCharge[stripIndex] * CT_StS
-        #         chargeStoBP = stripCharge[stripIndex] * CT_StBP
-        #         try:
-        #             stripChargeAdj[stripIndex] -= 2 * chargeStoS + chargeStoBP
-        #             stripChargeAdj[stripIndex - 1] += chargeStoS
-        #             stripChargeAdj[stripIndex + 1] += chargeStoS
-        #         except IndexError:
-        #             pass         
+        stripChargeAdj = np.copy(stripCharge)
+        if CT_StBP > 0 and CT_StS > 0:
+            chargeMask = np.nonzero(stripCharge)
+            for stripIndex in chargeMask:
+                chargeStoS = stripCharge[stripIndex] * CT_StS
+                chargeStoBP = stripCharge[stripIndex] * CT_StBP
+                try:
+                    stripChargeAdj[stripIndex] -= 2 * chargeStoS + chargeStoBP
+                    stripChargeAdj[stripIndex - 1] += chargeStoS
+                    stripChargeAdj[stripIndex + 1] += chargeStoS
+                except IndexError:
+                    pass         
 
     elif source == "athena":
         stripCharge = np.zeros(nOfStrips, dtype=np.float64)
@@ -58,10 +54,10 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     rootFile = TFile("data/raw/" + inputName)
     writeFile = TFile("data/" + outputName, "recreate") 
     
-    (thrStartFC, thrEndFC, thrStepFC) = (0, 1, 0.3)
-    effTitle = "Efficiency - " + outputName.split("_")[0]
+    (thrStartFC, thrEndFC, thrStepFC) = (0.3, 8, 0.1)
+    effTitle = "Efficiency"
     effHist = TH1F(effTitle, effTitle, 200, thrStartFC, thrEndFC)
-    clusTitle = "Cluster Size - " + outputName.split("_")[0]
+    clusTitle = "Average_cluster_size"
     clusHist = TH2I(clusTitle, clusTitle, 200, thrStartFC, thrEndFC, 400, 0, 10)
 
     if source == "athena":
@@ -97,7 +93,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
     clusHist = clusHist.ProfileX()
     print("Analysis done.                                         \n")
     rootFile.Close()
-    # writeFile.Write()
+    writeFile.Write()
     writeFile.Close()
 
     # logFile = open("log_analysis.txt", "a")
@@ -160,7 +156,7 @@ def RunAnalysis(inputName, outputName="", source="", CT_StS=0.0, CT_StBP=0.0):
 # RunAnalysis("0deg-300um-athena_output.root", "0deg-300um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-310um-athena_output.root", "0deg-310um-athena_analysed.root", source="athena", CT_StS=0.0, CT_StBP=0.0)
 
-RunAnalysis("0deg-lin_output.root", "test.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
+RunAnalysis("0deg-EF_output.root", "0deg-EF-CText_analysed.root", source="allpix", CT_StS=0.0153, CT_StBP=0.0096)
 # RunAnalysis("0deg-EF_output.root", "0deg-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-WF4-EF_output.root", "0deg-WF4-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
 # RunAnalysis("0deg-WF-EF_output.root", "0deg-WF-EF_analysed.root", source="allpix", CT_StS=0.0, CT_StBP=0.0)
