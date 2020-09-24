@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas, TF1, TString, TFloat, TDirectory
+from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas, TF1, TString, TDirectory
 import numpy as np
 from math import floor, sqrt
 from scipy.stats import sem
@@ -80,16 +80,9 @@ def DrawEfficiencyCluster(file_names, output_name, ref_file=""):
     file_paths = ["data/" + file_name for file_name in file_names]
     input_files = [TFile(file_path, "r") for file_path in file_paths]
 
-    # Define file titles for legend purposes
-    # TODO Pull info from ROOT file 
-    pass
-
-    for file_name in file_names:
-        file_titles[file_name]
-
-
     eff = [input_file.Get("Efficiency") for input_file in input_files]
     clus = [input_file.Get("Average_cluster_size") for input_file in input_files]
+    titles = [input_file.Get("Info").Get("title") for input_file in input_files]
 
     canvas = TCanvas("canvas1", "canvas1", 800, 600)
     for i in range(len(eff)):
@@ -183,36 +176,40 @@ def RunAnalysis(input_name, output_name=""):
     fit_func.SetParLimits(2, 0, 2)
     fit_func.SetParLimits(3, 0, 2)
     fit_func.SetParLimits(4, 0.5, 0.7)
-
     # Set style as dashed line
     fit_func.SetLineStyle(9)
     # Perform fit
     eff.Fit(fit_func, "R")
     
-    # Collect info
-    source = TString("allpix")
-    n_events = TFloat(eff.GetTotalHistogram().GetEntries() / n_thr)
-    vt50 = fit_func.GetParameter(1)
-    vt50_err = fit_func.GetParError(1)
-    thr_range = TString(str(thr_start) + ":" + str(thr_end) + ":" + str(thr_step))
-
     # Write outputs to file
     eff.Write()
     clus_graph.Write()
 
+    # Collect info
+    source = "allpix"
+    angle = input_name.split("-")[0]
+    descr = input_name.strip("_output.root").strip("0deg-")
+    n_events = str(int(eff.GetTotalHistogram().GetEntries() / n_thr))
+    title = source + "," + angle + "," + descr + "(" + str(n_events) + "ev)"
+    vt50 = str(fit_func.GetParameter(1))
+    vt50_err = str(fit_func.GetParError(1))
+    thr_range = str(thr_start) + ":" + str(thr_end) + ":" + str(thr_step)
+    
     # Write info to Info directory
-    #FIXME - Keys as floats? or as strings?
     info_dir = write_file.mkdir("Info")
     info_dir.cd()
-    info_dir.WriteObject(source, "source")
-    info_dir.WriteObject(n_events, "n_events")
-    info_dir.WriteObject(vt50, "vt50")
-    info_dir.WriteObject(vt50, "vt50_err")
-    info_dir.WriteObject(thr_range, "thr_range")
+    info_dir.WriteObject(TString(source), "source")
+    info_dir.WriteObject(TString(angle), "angle")
+    info_dir.WriteObject(TString(descr), "descr")
+    info_dir.WriteObject(TString(n_events), "n_events")
+    info_dir.WriteObject(TString(title), "title")
+    info_dir.WriteObject(TString(vt50), "vt50")
+    info_dir.WriteObject(TString(vt50), "vt50_err")
+    info_dir.WriteObject(TString(thr_range), "thr_range")
     write_file.Close()
 
 
-RunAnalysis("0deg-EF_output.root", "test.root")
+# RunAnalysis("0deg-EF_output.root", "test.root")
 # RunAnalysis("0deg-EF_output.root")
 # RunAnalysis("0deg-lin_output.root")
 # RunAnalysis("0deg-WF-EF_output.root")
@@ -224,4 +221,4 @@ RunAnalysis("0deg-EF_output.root", "test.root")
 
 # DrawCharge(["0deg-EF_modules.root", "0deg-WF-EF_modules.root"])
 
-# DrawEfficiencyCluster(["0deg-histat_analysed.root", "ser005.root"], output_name="test", ref_file="ref-0deg-testbeam.root")
+DrawEfficiencyCluster(["0deg-WF-EF_analysed.root", "ser005.root"], output_name="test", ref_file="ref-0deg-testbeam.root")
