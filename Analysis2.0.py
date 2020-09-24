@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 
-from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas, TF1, TString, TDirectory
+from ROOT import TFile, TEfficiency, TGraphErrors, TCanvas, TF1, TString, TDirectory, TLegend, gStyle
 import numpy as np
-from math import floor, sqrt
-from scipy.stats import sem
-
+from math import sqrt
 
 def GetHitDict(input_name):
     root_file = TFile("data/raw/" + input_name)
@@ -82,7 +80,14 @@ def DrawEfficiencyCluster(file_names, output_name, ref_file=""):
 
     eff = [input_file.Get("Efficiency") for input_file in input_files]
     clus = [input_file.Get("Average_cluster_size") for input_file in input_files]
-    titles = [input_file.Get("Info").Get("title") for input_file in input_files]
+    titles = [str(input_file.Get("Info").Get("title")) for input_file in input_files]
+
+    # Create a legend
+    legendHeight = 0.13*len(eff)
+    if not ref_file: legendHeight += 0.13
+    legend = TLegend(0.5, 1-legendHeight, 0.85, 0.85)
+    legend.SetTextSize(0.03)
+    legend.SetBorderSize(0)
 
     canvas = TCanvas("canvas1", "canvas1", 800, 600)
     for i in range(len(eff)):
@@ -92,13 +97,15 @@ def DrawEfficiencyCluster(file_names, output_name, ref_file=""):
             eff[i].Draw("same")
         eff[i].SetLineColor(i+1)
         eff[i].GetListOfFunctions().FindObject("Efficiency_fit").SetLineColor(i+1)
+        legend.AddEntry(eff[i], titles[i], "l")
     if ref_file:
         eff_ref = TFile("data/" + ref_file).Get("efficiency_vs_threshold_time_corrected")
         eff_ref.SetLineColor(51)
         eff_ref.SetMarkerColor(51)
         eff_ref.GetListOfFunctions().FindObject("erfcFit_timing").SetLineColor(51)
         eff_ref.Draw("PEX0same")
-
+        legend.AddEntry(eff_ref, "test beam", "l")
+    legend.Draw("same")
     canvas.SaveAs("results/" + output_name + "_eff.pdf")
 
     canvas = TCanvas("canvas2", "canvas2", 800, 600)
@@ -112,6 +119,7 @@ def DrawEfficiencyCluster(file_names, output_name, ref_file=""):
         clus_ref = TFile("data/" + ref_file).Get("cluster_size_vs_threshold")
         clus_ref.SetLineColor(51)
         clus_ref.Draw("same")
+    legend.Draw("same")
     canvas.SaveAs("results/" + output_name + "_clus.pdf")
 
 
@@ -186,7 +194,7 @@ def RunAnalysis(input_name, output_name=""):
     # Collect info
     source = "allpix"
     angle = input_name.split("-")[0]
-    descr = input_name.strip("_output.root").strip("0deg-")
+    descr = input_name.split("_")[0].strip("0deg-")
     n_events = str(int(eff.GetTotalHistogram().GetEntries() / n_thr))
     title = source + "," + angle + "," + descr + "(" + str(n_events) + "ev)"
     vt50 = str(fit_func.GetParameter(1))
@@ -219,4 +227,4 @@ def RunAnalysis(input_name, output_name=""):
 
 # DrawCharge(["0deg-EF_modules.root", "0deg-WF-EF_modules.root"])
 
-DrawEfficiencyCluster(["0deg-WF-EF_analysed.root", "ser005.root"], output_name="test", ref_file="ref-0deg-testbeam.root")
+DrawEfficiencyCluster(["0deg-histat_analysed.root", "ser005.root"], output_name="test", ref_file="ref-0deg-testbeam.root")
