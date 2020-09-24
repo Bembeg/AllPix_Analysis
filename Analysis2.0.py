@@ -100,10 +100,11 @@ def DrawEfficiencyCluster(file_names, output_name, ref_file=""):
         legend.AddEntry(eff[i], titles[i], "l")
     if ref_file:
         eff_ref = TFile("data/" + ref_file).Get("efficiency_vs_threshold_time_corrected")
+        eff_ref.SetMarkerStyle(2)
         eff_ref.SetLineColor(51)
         eff_ref.SetMarkerColor(51)
         eff_ref.GetListOfFunctions().FindObject("erfcFit_timing").SetLineColor(51)
-        eff_ref.Draw("PEX0same")
+        eff_ref.Draw("PEsame")
         legend.AddEntry(eff_ref, "test beam", "l")
     legend.Draw("same")
     canvas.SaveAs("results/" + output_name + "_eff.pdf")
