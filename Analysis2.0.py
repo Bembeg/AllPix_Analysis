@@ -176,8 +176,6 @@ def RunAnalysis(input_name, output_name=""):
     fit_func.SetParLimits(2, 0, 2)
     fit_func.SetParLimits(3, 0, 2)
     fit_func.SetParLimits(4, 0.5, 0.7)
-    # Set style as dashed line
-    fit_func.SetLineStyle(9)
     # Perform fit
     eff.Fit(fit_func, "R")
     
